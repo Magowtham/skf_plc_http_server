@@ -1,0 +1,9 @@
+
+2024/10/26 21:46:32 connected to database
+2024/10/26 21:46:32 server is running on 0.0.0.0:8000
+2024/10/26 21:50:28 connected to database
+2024/10/26 21:50:28 server is running on 0.0.0.0:8000
+2024/10/26 21:51:09 connected to database
+2024/10/26 21:51:09 server is running on 0.0.0.0:8000
+2024/10/26 21:52:07 connected to database
+2024/10/26 21:52:07 server is running on 0.0.0.0:8000

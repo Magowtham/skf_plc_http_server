@@ -1,0 +1,9 @@
+services:
+  app:
+    build: .
+    container_name: skf_plc_http_server
+    image: skf_plc_http_server:latest
+    env_file:
+      - production.env
+    ports:
+      - "8080:8080"
