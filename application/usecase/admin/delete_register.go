@@ -10,14 +10,17 @@ import (
 )
 
 type DeleteRegisterUseCase struct {
-	DataBaseService service.DataBaseService
+	DataBaseService *service.DataBaseService
+	CacheService    *service.CacheService
 }
 
-func InitDeleteRegisterUseCase(repo repository.DataBaseRepository) DeleteRegisterUseCase {
-	service := service.NewDataBaseService(repo)
+func InitDeleteRegisterUseCase(dbRepo repository.DataBaseRepository, cacheRepo repository.CacheRepository) DeleteRegisterUseCase {
+	dbService := service.NewDataBaseService(dbRepo)
+	cacheService := service.NewCacheService(cacheRepo)
 
 	return DeleteRegisterUseCase{
-		DataBaseService: service,
+		DataBaseService: dbService,
+		CacheService:    cacheService,
 	}
 }
 
@@ -68,6 +71,11 @@ func (u *DeleteRegisterUseCase) Execute(plcId string, drierId string, registerAd
 			return fmt.Errorf("error occurred with database"), 2
 		}
 		return nil, 0
+	}
+
+	if err := u.CacheService.DeleteRegister(plcId, registerAddress); err != nil {
+		log.Printf("error occurred with redis while deleting the register, plc id -> %s, drier id -> %s", plcId, drierId)
+		return fmt.Errorf("error occurred with cache"), 2
 	}
 
 	if error := u.DataBaseService.DeleteRegisterByRegAddress(plcId, registerAddress); error != nil {

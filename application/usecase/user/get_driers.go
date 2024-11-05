@@ -10,7 +10,7 @@ import (
 )
 
 type GetDriersUseCase struct {
-	DataBaseService service.DataBaseService
+	DataBaseService *service.DataBaseService
 }
 
 func InitGetDriersUseCase(dbRepo repository.DataBaseRepository) GetDriersUseCase {

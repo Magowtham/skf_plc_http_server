@@ -15,7 +15,7 @@ type DataBaseRepository interface {
 
 	GetAdminByEmail(email string) (entity.Admin, error)
 
-	CreateUser(user entity.User) error
+	CreateUser(user *entity.User) error
 
 	CheckUserEmailExists(email string) (bool, error)
 
@@ -56,6 +56,10 @@ type DataBaseRepository interface {
 	UpdateDrierRecipeStepCountAndCreateRegister(plcId string, register *entity.Register) error
 
 	CreateRegister(plcId string, register *entity.Register) error
+
+	GetRegisterAddressesByDrierId(plcId string, drierId string) ([]string, error)
+
+	GetAllRegisterAddress(plcId string) ([]string, error)
 
 	GetRegistersByDrierId(plcId string, drierId string) ([]entity.Register, error)
 

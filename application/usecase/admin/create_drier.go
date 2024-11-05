@@ -12,13 +12,16 @@ import (
 )
 
 type CreateDrierUseCase struct {
-	DataBaseService service.DataBaseService
+	DataBaseService *service.DataBaseService
+	CacheService    *service.CacheService
 }
 
-func InitCreateDrierUseCase(repo repository.DataBaseRepository) CreateDrierUseCase {
-	service := service.NewDataBaseService(repo)
+func InitCreateDrierUseCase(dbRepo repository.DataBaseRepository, cacheRepo repository.CacheRepository) CreateDrierUseCase {
+	dbService := service.NewDataBaseService(dbRepo)
+	cacheService := service.NewCacheService(cacheRepo)
 	return CreateDrierUseCase{
-		DataBaseService: service,
+		DataBaseService: dbService,
+		CacheService:    cacheService,
 	}
 }
 
@@ -53,6 +56,13 @@ func (u *CreateDrierUseCase) Execute(plcId string, drierRequest *request.Drier) 
 	if error := u.DataBaseService.CreateDrier(&drier); error != nil {
 		log.Printf("error occurred with database while creating the drier having plcid -> %s and label -> %s\n", drier.PlcId, drier.Label)
 		return fmt.Errorf("error occurred with database"), 2
+	}
+
+	err := u.CacheService.CreateDrier(drier.DrierId)
+
+	if err != nil {
+		log.Printf("error occurred with redis while creating the drier having plcid -> %s and label -> %s\n", drier.PlcId, drier.Label)
+		return fmt.Errorf("error occurred with cache"), 2
 	}
 
 	return nil, 0

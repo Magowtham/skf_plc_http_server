@@ -9,8 +9,8 @@ type DataBaseService struct {
 	DataBaseRepo repository.DataBaseRepository
 }
 
-func NewDataBaseService(repo repository.DataBaseRepository) DataBaseService {
-	return DataBaseService{
+func NewDataBaseService(repo repository.DataBaseRepository) *DataBaseService {
+	return &DataBaseService{
 		DataBaseRepo: repo,
 	}
 }
@@ -39,7 +39,7 @@ func (service *DataBaseService) GetAdminByEmail(email string) (entity.Admin, err
 	return service.DataBaseRepo.GetAdminByEmail(email)
 }
 
-func (service *DataBaseService) CreateUser(user entity.User) error {
+func (service *DataBaseService) CreateUser(user *entity.User) error {
 	return service.DataBaseRepo.CreateUser(user)
 }
 
@@ -95,6 +95,9 @@ func (service *DataBaseService) GetDriersByPlcId(plcId string) ([]entity.Drier, 
 	return service.DataBaseRepo.GetDriersByPlcId(plcId)
 }
 
+func (service *DataBaseService) GetAllRegisterAddress(plcId string) ([]string, error) {
+	return service.DataBaseRepo.GetAllRegisterAddress(plcId)
+}
 func (service *DataBaseService) CheckDrierIdExists(drierId string) (bool, error) {
 	return service.DataBaseRepo.CheckDrierIdExists(drierId)
 }
@@ -121,6 +124,10 @@ func (service *DataBaseService) UpdateDrierRecipeStepCountAndCreateRegister(plcI
 
 func (service *DataBaseService) CreateRegister(plcId string, register *entity.Register) error {
 	return service.DataBaseRepo.CreateRegister(plcId, register)
+}
+
+func (service *DataBaseService) GetRegisterAddressesByDrierId(plcId string, drierId string) ([]string, error) {
+	return service.DataBaseRepo.GetRegisterAddressesByDrierId(plcId, drierId)
 }
 
 func (service *DataBaseService) GetRegistersByDrierId(plcId string, drierId string) ([]entity.Register, error) {

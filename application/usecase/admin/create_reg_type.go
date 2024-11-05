@@ -11,7 +11,7 @@ import (
 )
 
 type CreateRegTypeUseCase struct {
-	DataBaseService service.DataBaseService
+	DataBaseService *service.DataBaseService
 }
 
 func InitCreateRegTypeUseCase(repo repository.DataBaseRepository) CreateRegTypeUseCase {

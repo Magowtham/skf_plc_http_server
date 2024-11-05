@@ -11,7 +11,7 @@ import (
 )
 
 type CreatePlcUseCase struct {
-	DatabaseService service.DataBaseService
+	DatabaseService *service.DataBaseService
 }
 
 func InitCreatePlcUseCase(repo repository.DataBaseRepository) CreatePlcUseCase {

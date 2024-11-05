@@ -14,7 +14,7 @@ import (
 )
 
 type CreateAdminUseCase struct {
-	DataBaseService service.DataBaseService
+	DataBaseService *service.DataBaseService
 }
 
 func InitCreateAdminUseCase(repo repository.DataBaseRepository) CreateAdminUseCase {

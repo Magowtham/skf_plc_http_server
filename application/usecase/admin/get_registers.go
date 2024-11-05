@@ -10,7 +10,7 @@ import (
 )
 
 type GetRegistersUseCase struct {
-	DataBaseService service.DataBaseService
+	DataBaseService *service.DataBaseService
 }
 
 func InitGetRegisterUseCase(repo repository.DataBaseRepository) GetRegistersUseCase {

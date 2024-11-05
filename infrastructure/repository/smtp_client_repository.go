@@ -10,8 +10,8 @@ type SmtpClientRepository struct {
 	smtpClient *smtpclient.SmtpClient
 }
 
-func NewSmtpClientRepository(smtpClient *smtpclient.SmtpClient) SmtpClientRepository {
-	return SmtpClientRepository{
+func NewSmtpClientRepository(smtpClient *smtpclient.SmtpClient) *SmtpClientRepository {
+	return &SmtpClientRepository{
 		smtpClient,
 	}
 }

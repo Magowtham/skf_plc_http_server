@@ -13,13 +13,16 @@ import (
 )
 
 type CreateRegisterUseCase struct {
-	DataBaseService service.DataBaseService
+	DataBaseService *service.DataBaseService
+	CacheService    *service.CacheService
 }
 
-func InitCreateRegisterUseCase(repo repository.DataBaseRepository) CreateRegisterUseCase {
-	service := service.NewDataBaseService(repo)
+func InitCreateRegisterUseCase(dbRepo repository.DataBaseRepository, cacheRepo repository.CacheRepository) CreateRegisterUseCase {
+	dbService := service.NewDataBaseService(dbRepo)
+	cacheService := service.NewCacheService(cacheRepo)
 	return CreateRegisterUseCase{
-		DataBaseService: service,
+		DataBaseService: dbService,
+		CacheService:    cacheService,
 	}
 }
 
@@ -110,8 +113,13 @@ func (u *CreateRegisterUseCase) Execute(plcId string, drierId string, registerRe
 	}
 
 	if error := u.DataBaseService.CreateRegister(plcId, &register); error != nil {
-		log.Printf("error occurred while creating the register having plc id -> %s and drier id -> %s\n", plcId, drierId)
+		log.Printf("error occurred with database while creating the register having plc id -> %s and drier id -> %s\n", plcId, drierId)
 		return fmt.Errorf("error occurred with database"), 2
+	}
+
+	if error := u.CacheService.CreateRegister(plcId, &register); error != nil {
+		log.Printf("error occurred with cache while creating the register having plc id -> %s and drier id -> %s\n", plcId, drierId)
+		return fmt.Errorf("error occurred with cache"), 2
 	}
 
 	return nil, 0

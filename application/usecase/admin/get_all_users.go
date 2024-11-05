@@ -10,7 +10,7 @@ import (
 )
 
 type GetAllUsersUseCase struct {
-	DataBaseService service.DataBaseService
+	DataBaseService *service.DataBaseService
 }
 
 func InitGetAllUsersUseCase(repo repository.DataBaseRepository) GetAllUsersUseCase {

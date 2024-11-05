@@ -3,6 +3,7 @@ package repository
 import (
 	"database/sql"
 	"fmt"
+	"time"
 
 	"github.com/VsenseTechnologies/skf_plc_http_server/domain/entity"
 )
@@ -11,8 +12,8 @@ type PostgresRepository struct {
 	database *sql.DB
 }
 
-func NewPostgresRepository(db *sql.DB) PostgresRepository {
-	return PostgresRepository{
+func NewPostgresRepository(db *sql.DB) *PostgresRepository {
+	return &PostgresRepository{
 		database: db,
 	}
 }
@@ -189,17 +190,24 @@ func (repo *PostgresRepository) CheckUserIdExists(userId string) (bool, error) {
 
 func (repo *PostgresRepository) CheckUserEmailExists(email string) (bool, error) {
 	var exists bool
-
+	start := time.Now()
 	query := `SELECT EXISTS(SELECT 1 FROM users WHERE email = $1)`
 
 	error := repo.database.QueryRow(query, email).Scan(&exists)
 
+	end := time.Since(start)
+
+	fmt.Printf("1 took -> %v\n", end)
 	return exists, error
 }
 
-func (repo *PostgresRepository) CreateUser(user entity.User) error {
+func (repo *PostgresRepository) CreateUser(user *entity.User) error {
+	start := time.Now()
 	query := `INSERT INTO users (user_id,label,email,password) VALUES ($1,$2,$3,$4)`
 	_, error := repo.database.Exec(query, user.UserId, user.Label, user.Email, user.Password)
+	end := time.Since(start)
+
+	fmt.Printf("2 took -> %v\n", end)
 	return error
 }
 
@@ -545,6 +553,52 @@ func (repo *PostgresRepository) DeleteRegisterByRegAddress(plcId string, registe
 	_, error := repo.database.Exec(query, registerAddress)
 
 	return error
+}
+
+func (repo *PostgresRepository) GetRegisterAddressesByDrierId(plcId string, drierId string) ([]string, error) {
+	var registerAddresses []string
+	var registerAddress string
+
+	query := fmt.Sprintf(`SELECT reg_address FROM %s WHERE drier_id=$1`, plcId)
+
+	rows, err := repo.database.Query(query, drierId)
+
+	if err != nil {
+		return nil, err
+	}
+
+	for rows.Next() {
+		err := rows.Scan(&registerAddress)
+
+		if err != nil {
+			return nil, err
+		}
+		registerAddresses = append(registerAddresses, registerAddress)
+	}
+
+	return registerAddresses, nil
+}
+
+func (repo *PostgresRepository) GetAllRegisterAddress(plcId string) ([]string, error) {
+
+	var registers []string
+	var register string
+
+	query := fmt.Sprintf(`SELECT reg_address FROM %s`, plcId)
+
+	rows, err := repo.database.Query(query)
+
+	if err != nil {
+		return nil, err
+	}
+
+	for rows.Next() {
+		if err := rows.Scan(&register); err != nil {
+			return nil, err
+		}
+		registers = append(registers, register)
+	}
+	return registers, nil
 }
 
 func (repo *PostgresRepository) GetRegistersByDrierId(plcId string, drierId string) ([]entity.Register, error) {

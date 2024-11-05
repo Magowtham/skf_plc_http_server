@@ -10,7 +10,7 @@ import (
 )
 
 type GetPlcsUseCase struct {
-	DataBaseService service.DataBaseService
+	DataBaseService *service.DataBaseService
 }
 
 func InitGetPlcsUseCase(repo repository.DataBaseRepository) GetPlcsUseCase {

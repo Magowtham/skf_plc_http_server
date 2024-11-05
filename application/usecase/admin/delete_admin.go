@@ -9,7 +9,7 @@ import (
 )
 
 type DeleteAdminUseCase struct {
-	DataBaseService service.DataBaseService
+	DataBaseService *service.DataBaseService
 }
 
 func InitDeleteAdminUaseCase(repo repository.DataBaseRepository) DeleteAdminUseCase {

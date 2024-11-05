@@ -9,7 +9,7 @@ import (
 )
 
 type GetRecipeStepCountUseCase struct {
-	DataBaseService service.DataBaseService
+	DataBaseService *service.DataBaseService
 }
 
 func InitGetRecipeStepCountUseCase(dbRepo repository.DataBaseRepository) GetRecipeStepCountUseCase {

@@ -13,13 +13,15 @@ import (
 )
 
 type Handler struct {
-	dbRepo   repository.DataBaseRepository
-	smtpRepo repository.SmtpClientRepository
+	dbRepo    repository.DataBaseRepository
+	cacheRepo repository.CacheRepository
+	smtpRepo  repository.SmtpClientRepository
 }
 
-func NewHandler(dbRepo repository.DataBaseRepository, smtpRepo repository.SmtpClientRepository) Handler {
+func NewHandler(dbRepo repository.DataBaseRepository, cacheRepo repository.CacheRepository, smtpRepo repository.SmtpClientRepository) Handler {
 	return Handler{
 		dbRepo,
+		cacheRepo,
 		smtpRepo,
 	}
 }
@@ -227,7 +229,7 @@ func (h *Handler) DeleteUserHandler(w http.ResponseWriter, r *http.Request) {
 
 	userId := vars["userId"]
 
-	deleteUserUseCase := admin.InitDeleteUserCase(h.dbRepo)
+	deleteUserUseCase := admin.InitDeleteUserCase(h.dbRepo, h.cacheRepo)
 
 	error, errorStatus := deleteUserUseCase.Execute(userId)
 
@@ -328,7 +330,7 @@ func (h *Handler) DeletePlcHandler(w http.ResponseWriter, r *http.Request) {
 
 	plcId := vars["plcId"]
 
-	deletePlcUseCase := admin.InitDeletePlcUseCase(h.dbRepo)
+	deletePlcUseCase := admin.InitDeletePlcUseCase(h.dbRepo, h.cacheRepo)
 
 	if error, errorStatus := deletePlcUseCase.Execute(plcId); error != nil {
 		response := response.StatusMessage{
@@ -405,7 +407,7 @@ func (h *Handler) CreateDrierHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	createDrierUseCase := admin.InitCreateDrierUseCase(h.dbRepo)
+	createDrierUseCase := admin.InitCreateDrierUseCase(h.dbRepo, h.cacheRepo)
 
 	if error, errorStatus := createDrierUseCase.Execute(plcId, &request); error != nil {
 
@@ -468,11 +470,12 @@ func (h *Handler) GetDriersHandler(w http.ResponseWriter, r *http.Request) {
 func (h *Handler) DeleteDrierHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 
+	plcId := vars["plcId"]
 	drierId := vars["drierId"]
 
-	deleteDrierUseCase := admin.InitDeleteDrierUseCase(h.dbRepo)
+	deleteDrierUseCase := admin.InitDeleteDrierUseCase(h.dbRepo, h.cacheRepo)
 
-	error, errorStatus := deleteDrierUseCase.Execute(drierId)
+	error, errorStatus := deleteDrierUseCase.Execute(plcId, drierId)
 
 	if error != nil {
 		response := response.StatusMessage{
@@ -515,7 +518,7 @@ func (h *Handler) CreateRegisterHandler(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-	createRegisterUseCase := admin.InitCreateRegisterUseCase(h.dbRepo)
+	createRegisterUseCase := admin.InitCreateRegisterUseCase(h.dbRepo, h.cacheRepo)
 
 	if error, errorStatus := createRegisterUseCase.Execute(plcId, drierId, &request); error != nil {
 		response := response.StatusMessage{
@@ -584,7 +587,7 @@ func (h *Handler) DeleteRegisterHandler(w http.ResponseWriter, r *http.Request) 
 
 	regTypeName := vars["regTypeName"]
 
-	deleteRegisterUseCase := admin.InitDeleteRegisterUseCase(h.dbRepo)
+	deleteRegisterUseCase := admin.InitDeleteRegisterUseCase(h.dbRepo, h.cacheRepo)
 
 	error, errorStatus := deleteRegisterUseCase.Execute(plcId, drierId, regAddress, regTypeName)
 

@@ -13,7 +13,7 @@ import (
 )
 
 type GiveUserAccessUseCase struct {
-	DataBaseService   service.DataBaseService
+	DataBaseService   *service.DataBaseService
 	SmtpClientService service.SmtpClientService
 }
 

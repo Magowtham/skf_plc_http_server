@@ -9,7 +9,7 @@ import (
 )
 
 type InitializeDataBaseUseCase struct {
-	DataBaseService service.DataBaseService
+	DataBaseService *service.DataBaseService
 }
 
 func InitInitializeDataBaseUseCase(repo repository.DataBaseRepository) InitializeDataBaseUseCase {

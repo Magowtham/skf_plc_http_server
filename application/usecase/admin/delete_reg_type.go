@@ -9,7 +9,7 @@ import (
 )
 
 type DeleteRegTypeUseCase struct {
-	DataBaseService service.DataBaseService
+	DataBaseService *service.DataBaseService
 }
 
 func InitDeleteRegTypeUseCase(repo repository.DataBaseRepository) DeleteRegTypeUseCase {

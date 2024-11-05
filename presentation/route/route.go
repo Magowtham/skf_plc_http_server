@@ -7,9 +7,9 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func Router(dbRepo repository.DataBaseRepository, smtpRepo repository.SmtpClientRepository) *mux.Router {
+func Router(dbRepo repository.DataBaseRepository, cacheRepo repository.CacheRepository, smtpRepo repository.SmtpClientRepository) *mux.Router {
 
-	adminHandler := admin.NewHandler(dbRepo, smtpRepo)
+	adminHandler := admin.NewHandler(dbRepo, cacheRepo, smtpRepo)
 	userHandler := user.NewHandler(dbRepo)
 
 	router := mux.NewRouter()
@@ -36,7 +36,7 @@ func Router(dbRepo repository.DataBaseRepository, smtpRepo repository.SmtpClient
 	adminRouter.HandleFunc("/plcs/{userId}", adminHandler.GetPlcsHandler).Methods("GET")
 	adminRouter.HandleFunc("/create/drier/{plcId}", adminHandler.CreateDrierHandler).Methods("POST")
 	adminRouter.HandleFunc("/driers/{plcId}", adminHandler.GetDriersHandler).Methods("GET")
-	adminRouter.HandleFunc("/delete/drier/{drierId}", adminHandler.DeleteDrierHandler).Methods("DELETE")
+	adminRouter.HandleFunc("/delete/drier/{plcId}/{drierId}", adminHandler.DeleteDrierHandler).Methods("DELETE")
 	adminRouter.HandleFunc("/create/register/{plcId}/{drierId}", adminHandler.CreateRegisterHandler).Methods("POST")
 	adminRouter.HandleFunc("/registers/{plcId}/{drierId}", adminHandler.GetRegistersHandler).Methods("GET")
 	adminRouter.HandleFunc("/delete/register/{plcId}/{drierId}/{regAddress}/{regTypeName}", adminHandler.DeleteRegisterHandler).Methods("DELETE")

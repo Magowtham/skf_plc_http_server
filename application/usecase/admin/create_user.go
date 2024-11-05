@@ -10,21 +10,21 @@ import (
 	"github.com/VsenseTechnologies/skf_plc_http_server/domain/service"
 	"github.com/VsenseTechnologies/skf_plc_http_server/presentation/model/request"
 	"github.com/google/uuid"
-	"golang.org/x/crypto/bcrypt"
 )
 
 type CreateUserUseCase struct {
-	DataBaseService service.DataBaseService
+	DataBaseService *service.DataBaseService
 }
 
-func InitCreateUserUseCase(repo repository.DataBaseRepository) CreateUserUseCase {
+func InitCreateUserUseCase(repo repository.DataBaseRepository) *CreateUserUseCase {
 	service := service.NewDataBaseService(repo)
-	return CreateUserUseCase{
+	return &CreateUserUseCase{
 		DataBaseService: service,
 	}
 }
 
 func (u *CreateUserUseCase) Execute(request *request.User) (error, int) {
+
 	if request.Label == "" {
 		return fmt.Errorf("label cannot be empty"), 1
 	}
@@ -61,15 +61,14 @@ func (u *CreateUserUseCase) Execute(request *request.User) (error, int) {
 	}
 
 	userId := uuid.New().String()
-
-	hashedPasswordBytes, error := bcrypt.GenerateFromPassword([]byte(request.Password), 14)
+	hashedPasswordBytes, error := "123", nil
 
 	if error != nil {
 		log.Printf("error occurred while generating hashed password of the user email %s", request.Email)
 		return fmt.Errorf("error occurred while generating hashed password"), 2
 	}
 
-	user := entity.User{
+	user := &entity.User{
 		UserId:   userId,
 		Label:    request.Label,
 		Email:    request.Email,
