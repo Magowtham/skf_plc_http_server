@@ -1,77 +1,10 @@
 
-2024/10/26 21:46:32 connected to database
-2024/10/26 21:46:32 server is running on 0.0.0.0:8000
-2024/10/26 21:50:28 connected to database
-2024/10/26 21:50:28 server is running on 0.0.0.0:8000
-2024/10/26 21:51:09 connected to database
-2024/10/26 21:51:09 server is running on 0.0.0.0:8000
-2024/10/26 21:52:07 connected to database
-2024/10/26 21:52:07 server is running on 0.0.0.0:8000
-2024/10/30 11:42:04 connected to database
-2024/10/30 11:42:04 server is running on 0.0.0.0:8000
-2024/10/30 11:45:28 magowtham7@gmail.com was already exists
-2024/10/30 11:48:55 connected to database
-2024/10/30 11:48:55 server is running on 0.0.0.0:8000
-2024/10/30 11:49:07 connected to database
-2024/10/30 11:49:07 server is running on 0.0.0.0:8000
-2024/10/30 11:51:46 connected to database
-2024/10/30 11:51:46 server is running on 0.0.0.0:8000
-2024/10/30 11:57:29 connected to database
-2024/10/30 11:57:29 server is running on 0.0.0.0:8000
-2024/10/30 11:59:35 connected to database
-2024/10/30 11:59:35 server is running on 0.0.0.0:8000
-2024/10/30 12:03:19 connected to database
-2024/10/30 12:03:19 server is running on 0.0.0.0:8000
-2024/10/30 12:05:06 connected to database
-2024/10/30 12:05:06 server is running on 0.0.0.0:8000
-2024/10/30 12:06:12 connected to database
-2024/10/30 12:06:12 server is running on 0.0.0.0:8000
-2024/10/30 12:09:29 connected to database
-2024/10/30 12:09:29 server is running on 0.0.0.0:8000
-2024/10/30 12:11:04 connected to database
-2024/10/30 12:11:04 server is running on 0.0.0.0:8000
-2024/11/04 23:14:26 connected to database
-2024/11/04 23:14:26 server is running on 0.0.0.0:8000
-2024/11/04 23:15:19 connected to database
-2024/11/04 23:15:19 server is running on 0.0.0.0:8000
-2024/11/05 07:50:04 connected to database
-2024/11/05 07:50:05 PONG
-2024/11/05 07:50:05 server is running on 0.0.0.0:8000
-2024/11/05 07:50:36 connected to database
-2024/11/05 07:50:38 PONG
-2024/11/05 07:50:38 connected to redis
-2024/11/05 07:50:38 server is running on 0.0.0.0:8000
-2024/11/05 07:51:28 connected to database
-2024/11/05 07:51:30 connected to redis
-2024/11/05 07:51:30 server is running on 0.0.0.0:8000
-2024/11/05 09:05:58 connected to database
-2024/11/05 09:06:00 connected to redis
-2024/11/05 09:06:00 server is running on 0.0.0.0:8000
-2024/11/05 09:20:20 connected to database
-2024/11/05 09:20:22 connected to redis
-2024/11/05 09:20:22 server is running on 0.0.0.0:8000
-2024/11/05 10:31:12 connected to database
-2024/11/05 10:31:15 connected to redis
-2024/11/05 10:31:15 server is running on 0.0.0.0:8000
-2024/11/05 10:46:53 connected to database
-2024/11/05 10:46:55 connected to redis
-2024/11/05 10:46:55 server is running on 0.0.0.0:8000
-2024/11/05 11:18:32 failed to connect to database:  failed to connect to `user=admin database=vsense`:
-	hostname resolving error: lookup dpg-csb4kkrtq21c73980160-a.singapore-postgres.render.com: no such host
-	lookup dpg-csb4kkrtq21c73980160-a.singapore-postgres.render.com: no such host
-2024/11/05 11:19:23 connected to database
-2024/11/05 11:19:50 connected to database
-2024/11/05 11:19:53 connected to redis
-2024/11/05 11:19:53 server is running on 0.0.0.0:8000
-2024/11/05 11:20:41 connected to database
-2024/11/05 11:20:43 connected to redis
-2024/11/05 11:20:43 server is running on 0.0.0.0:8000
-2024/11/05 11:22:16 connected to database
-2024/11/05 11:22:18 connected to redis
-2024/11/05 11:22:18 server is running on 0.0.0.0:8000
-2024/11/05 12:13:11 connected to database
-2024/11/05 12:13:13 connected to redis
-2024/11/05 12:13:13 server is running on 0.0.0.0:8000
-2024/11/05 12:26:29 connected to database
-2024/11/05 12:26:32 connected to redis
-2024/11/05 12:26:32 server is running on 0.0.0.0:8000
+2024/11/05 13:29:18 connected to database
+2024/11/05 13:29:21 connected to redis
+2024/11/05 13:29:21 server is running on 0.0.0.0:8000
+2024/11/05 13:34:56 connected to database
+2024/11/05 13:34:58 connected to redis
+2024/11/05 13:34:58 server is running on 0.0.0.0:8000
+2024/11/05 14:27:26 connected to database
+2024/11/05 14:27:29 connected to redis
+2024/11/05 14:27:29 server is running on 0.0.0.0:8000

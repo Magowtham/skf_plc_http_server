@@ -10,6 +10,7 @@ import (
 	"github.com/VsenseTechnologies/skf_plc_http_server/domain/service"
 	"github.com/VsenseTechnologies/skf_plc_http_server/presentation/model/request"
 	"github.com/google/uuid"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type CreateUserUseCase struct {
@@ -61,7 +62,7 @@ func (u *CreateUserUseCase) Execute(request *request.User) (error, int) {
 	}
 
 	userId := uuid.New().String()
-	hashedPasswordBytes, error := "123", nil
+	hashedPasswordBytes, error := bcrypt.GenerateFromPassword([]byte(request.Password), 14)
 
 	if error != nil {
 		log.Printf("error occurred while generating hashed password of the user email %s", request.Email)
