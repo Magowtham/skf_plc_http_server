@@ -8,3 +8,14 @@
 2024/11/05 14:27:26 connected to database
 2024/11/05 14:27:29 connected to redis
 2024/11/05 14:27:29 server is running on 0.0.0.0:8000
+2024/11/05 14:33:14 connected to database
+2024/11/05 14:33:16 connected to redis
+2024/11/05 14:33:16 server is running on 0.0.0.0:8000
+2024/11/05 14:42:51 error occurred with redis while creating the drier having plcid -> vs24skf010 and label -> paddy drier2
+2024/11/05 14:54:43 connected to database
+2024/11/05 14:54:44 connected to redis
+2024/11/05 14:54:44 server is running on 0.0.0.0:8000
+2024/11/05 15:05:01 error occurred with database while checking drier id exists, get recipe step count, drier id -> c748e0cd-f91c-4ef2-9259-d56491767791
+2024/11/05 15:13:25 connected to database
+2024/11/05 15:13:27 connected to redis
+2024/11/05 15:13:27 server is running on 0.0.0.0:8000

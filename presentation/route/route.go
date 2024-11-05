@@ -25,9 +25,9 @@ func Router(dbRepo repository.DataBaseRepository, cacheRepo repository.CacheRepo
 	loginRouter.HandleFunc("/user", userHandler.UserLoginHandler).Methods("POST")
 
 	rootRouter.HandleFunc("/create/admin", adminHandler.SignUpHandler).Methods("POST")
+	rootRouter.HandleFunc("/delete/admin/{adminId}", adminHandler.DeleteAdminHandler).Methods("DELETE")
 
 	adminRouter.HandleFunc("/database/init", adminHandler.DatabaseInitializeHandler).Methods("GET")
-	adminRouter.HandleFunc("/delete/admin/{adminId}", adminHandler.DeleteAdminHandler).Methods("DELETE")
 	adminRouter.HandleFunc("/create/user", adminHandler.CreateUserHandler).Methods("POST")
 	adminRouter.HandleFunc("/delete/user/{userId}", adminHandler.DeleteUserHandler).Methods("DELETE")
 	adminRouter.HandleFunc("/users", adminHandler.GetAllUsersHandler).Methods("GET")
