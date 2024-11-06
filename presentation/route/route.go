@@ -4,6 +4,7 @@ import (
 	"github.com/VsenseTechnologies/skf_plc_http_server/domain/repository"
 	"github.com/VsenseTechnologies/skf_plc_http_server/presentation/handler/admin"
 	"github.com/VsenseTechnologies/skf_plc_http_server/presentation/handler/user"
+	"github.com/VsenseTechnologies/skf_plc_http_server/presentation/middleware"
 	"github.com/gorilla/mux"
 )
 
@@ -19,6 +20,7 @@ func Router(dbRepo repository.DataBaseRepository, cacheRepo repository.CacheRepo
 	adminRouter := router.PathPrefix("/admin").Subrouter()
 	userRouter := router.PathPrefix("/user").Subrouter()
 
+	router.Use(middleware.CorsMiddleWare)
 	// adminRouter.Use(middleware.AdminAuthenticationMiddleWare)
 
 	loginRouter.HandleFunc("/admin", adminHandler.AdminLoginHandler).Methods("POST")

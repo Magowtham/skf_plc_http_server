@@ -19,3 +19,6 @@
 2024/11/05 15:13:25 connected to database
 2024/11/05 15:13:27 connected to redis
 2024/11/05 15:13:27 server is running on 0.0.0.0:8000
+2024/11/06 21:44:04 connected to database
+2024/11/06 21:44:05 connected to redis
+2024/11/06 21:44:05 server is running on 0.0.0.0:8000
