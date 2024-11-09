@@ -698,3 +698,10 @@ func (repo *PostgresRepository) GetRecipeStepCount(drierId string) (int, error) 
 	error := repo.database.QueryRow(query, drierId).Scan(&recipeStepCount)
 	return recipeStepCount, error
 }
+
+func (repo *PostgresRepository) GetRegisterValueByRegisterTypeAndDrierId(plcId string, drierId string, regType string) (string, error) {
+	var regValue string
+	query := fmt.Sprintf(`SELECT value FROM %s WHERE drier_id=$1 AND reg_type=$2`, plcId)
+	err := repo.database.QueryRow(query, drierId, regType).Scan(&regValue)
+	return regValue, err
+}

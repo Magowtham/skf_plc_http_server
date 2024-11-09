@@ -49,6 +49,7 @@ func Router(dbRepo repository.DataBaseRepository, cacheRepo repository.CacheRepo
 
 	userRouter.HandleFunc("/driers/{userId}", userHandler.GetDriersHandler).Methods("GET")
 	userRouter.HandleFunc("/recipe/step/count/{drierId}", userHandler.GetRecipeStepCountHandler).Methods("GET")
+	userRouter.HandleFunc("/drier/statuses/{plcId}/{drierId}", userHandler.GetDrierStatusesHandler).Methods("GET")
 
 	return router
 }

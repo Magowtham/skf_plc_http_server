@@ -33,3 +33,7 @@ type RegTypes struct {
 type RecipeStepCount struct {
 	RecipeStepCount int `json:"recipe_step_count"`
 }
+
+type DrierStatuses struct {
+	DrierStatuses []*entity.DrierStatus `json:"statuses"`
+}

@@ -120,3 +120,36 @@ func (h *Handler) GetRecipeStepCountHandler(w http.ResponseWriter, r *http.Reque
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(response)
 }
+
+func (h *Handler) GetDrierStatusesHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	plcId := vars["plcId"]
+	drierId := vars["drierId"]
+
+	getDrierStatusesUseCase := user.InitGetDrierStatusesUseCase(h.dbRepo)
+
+	err, errStatus, drierStatuses := getDrierStatusesUseCase.Execute(plcId, drierId)
+
+	if err != nil {
+		response := response.StatusMessage{
+			Message: err.Error(),
+		}
+
+		if errStatus == 1 {
+			w.WriteHeader(http.StatusBadRequest)
+			json.NewEncoder(w).Encode(response)
+			return
+		}
+
+		w.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(w).Encode(response)
+		return
+	}
+
+	response := response.DrierStatuses{
+		DrierStatuses: drierStatuses,
+	}
+
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(response)
+}

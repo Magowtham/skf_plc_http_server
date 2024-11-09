@@ -78,4 +78,6 @@ type DataBaseRepository interface {
 	GetRegisterTypesFromPlcByDrierId(plcId string, drierId string) ([]string, error)
 
 	GetRecipeStepCount(drierId string) (int, error)
+
+	GetRegisterValueByRegisterTypeAndDrierId(plcId string, drierId string, regType string) (string, error)
 }

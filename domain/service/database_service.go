@@ -165,3 +165,7 @@ func (service *DataBaseService) GetRegisterTypesFromPlcByDrierId(plcId string, d
 func (service *DataBaseService) GetRecipeStepCount(drierId string) (int, error) {
 	return service.DataBaseRepo.GetRecipeStepCount(drierId)
 }
+
+func (service *DataBaseService) GetRegisterValueByRegisterTypeAndDrierId(plcId string, drierId string, regType string) (string, error) {
+	return service.DataBaseRepo.GetRegisterValueByRegisterTypeAndDrierId(plcId, drierId, regType)
+}
