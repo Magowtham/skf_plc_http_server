@@ -405,3 +405,27 @@ HTTP Response format
 	"recipe_step_count":0
 }
 ```
+
+## 24.  Get Drier Prev Statuses
+
+```bash
+https://skfplc.vsensetech.in/user/drier/statuses/__PLC_ID__/__DRIER_ID__
+```
+
+### HTTP Method → GET
+
+HTTP Response format
+
+```json
+{
+	"statuses":[
+		{"reg_type":"st_bl_trp","reg_value":"0"},
+		{"reg_type":"st_el_trp","reg_value":"0"},
+		{"reg_type":"st_rt_trp","reg_value":"0"},
+		{"reg_type":"st_bl_rn","reg_value":"1"},
+		{"reg_type":"st_el_rn","reg_value":"1"},
+		{"reg_type":"st_rt_rn","reg_value":"1"}
+	]
+}
+
+```
