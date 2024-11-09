@@ -21,7 +21,8 @@ func NewRedisRepository(client *redis.Client) *RedisRepository {
 func (repo *RedisRepository) CreateDrier(drierId string) error {
 	key1 := fmt.Sprintf("rcp_stp_ct_%s", drierId)
 	key2 := fmt.Sprintf("rcp_stp_tp_%s", drierId)
-	_, err := repo.client.MSet(context.Background(), key1, "0", key2, "0").Result()
+	key3 := fmt.Sprintf("pid_%s", drierId)
+	_, err := repo.client.MSet(context.Background(), key1, "0", key2, "0", key3, "0").Result()
 	return err
 }
 
