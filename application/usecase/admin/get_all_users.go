@@ -13,15 +13,15 @@ type GetAllUsersUseCase struct {
 	DataBaseService *service.DataBaseService
 }
 
-func InitGetAllUsersUseCase(repo repository.DataBaseRepository) GetAllUsersUseCase {
+func InitGetAllUsersUseCase(repo repository.DataBaseRepository) *GetAllUsersUseCase {
 	service := service.NewDataBaseService(repo)
 
-	return GetAllUsersUseCase{
+	return &GetAllUsersUseCase{
 		DataBaseService: service,
 	}
 }
 
-func (u *GetAllUsersUseCase) Execute() (error, int, []entity.User) {
+func (u *GetAllUsersUseCase) Execute() (error, int, []*entity.User) {
 	users, error := u.DataBaseService.GetAllUsers()
 
 	if error != nil {

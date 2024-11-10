@@ -13,14 +13,14 @@ type GetPlcsUseCase struct {
 	DataBaseService *service.DataBaseService
 }
 
-func InitGetPlcsUseCase(repo repository.DataBaseRepository) GetPlcsUseCase {
+func InitGetPlcsUseCase(repo repository.DataBaseRepository) *GetPlcsUseCase {
 	service := service.NewDataBaseService(repo)
-	return GetPlcsUseCase{
+	return &GetPlcsUseCase{
 		DataBaseService: service,
 	}
 }
 
-func (u *GetPlcsUseCase) Execute(userId string) (error, int, []entity.Plc) {
+func (u *GetPlcsUseCase) Execute(userId string) (error, int, []*entity.Plc) {
 	if userId == "" {
 		return fmt.Errorf("user id cannot be empty"), 1, nil
 	}

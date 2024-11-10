@@ -14,14 +14,14 @@ type CreatePlcUseCase struct {
 	DatabaseService *service.DataBaseService
 }
 
-func InitCreatePlcUseCase(repo repository.DataBaseRepository) CreatePlcUseCase {
+func InitCreatePlcUseCase(repo repository.DataBaseRepository) *CreatePlcUseCase {
 	service := service.NewDataBaseService(repo)
-	return CreatePlcUseCase{
+	return &CreatePlcUseCase{
 		DatabaseService: service,
 	}
 }
 
-func (u *CreatePlcUseCase) Execute(userId string, plcRequest request.Plc) (error, int) {
+func (u *CreatePlcUseCase) Execute(userId string, plcRequest *request.Plc) (error, int) {
 	if userId == "" {
 		return fmt.Errorf("user id cannot be empty"), 1
 	}
@@ -56,7 +56,7 @@ func (u *CreatePlcUseCase) Execute(userId string, plcRequest request.Plc) (error
 		return fmt.Errorf("plc id already exists"), 1
 	}
 
-	plc := entity.Plc{
+	plc := &entity.Plc{
 		PlcId:  plcRequest.PlcId,
 		UserId: userId,
 		Label:  plcRequest.Label,

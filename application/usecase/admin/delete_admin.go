@@ -12,9 +12,9 @@ type DeleteAdminUseCase struct {
 	DataBaseService *service.DataBaseService
 }
 
-func InitDeleteAdminUaseCase(repo repository.DataBaseRepository) DeleteAdminUseCase {
+func InitDeleteAdminUaseCase(repo repository.DataBaseRepository) *DeleteAdminUseCase {
 	service := service.NewDataBaseService(repo)
-	return DeleteAdminUseCase{
+	return &DeleteAdminUseCase{
 		DataBaseService: service,
 	}
 }

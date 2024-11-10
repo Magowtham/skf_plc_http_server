@@ -7,13 +7,13 @@ type DataBaseRepository interface {
 
 	CheckAdminEmailExists(email string) (bool, error)
 
-	CreateAdmin(admin entity.Admin) error
+	CreateAdmin(admin *entity.Admin) error
 
 	DeleteAdmin(adminId string) error
 
 	CheckAdminIdExists(adminId string) (bool, error)
 
-	GetAdminByEmail(email string) (entity.Admin, error)
+	GetAdminByEmail(email string) (*entity.Admin, error)
 
 	CreateUser(user *entity.User) error
 
@@ -23,25 +23,25 @@ type DataBaseRepository interface {
 
 	DeleteUser(userId string) error
 
-	GetUserById(userId string) (entity.User, error)
+	GetUserById(userId string) (*entity.User, error)
 
-	GetUserByEmail(email string) (entity.User, error)
+	GetUserByEmail(email string) (*entity.User, error)
 
-	GetAllUsers() ([]entity.User, error)
+	GetAllUsers() ([]*entity.User, error)
 
 	CheckPlcIdExists(plcId string) (bool, error)
 
-	CreatePlc(plc entity.Plc) error
+	CreatePlc(plc *entity.Plc) error
 
 	DeletePlc(plcId string) error
 
-	GetPlcsByUserId(userId string) ([]entity.Plc, error)
+	GetPlcsByUserId(userId string) ([]*entity.Plc, error)
 
 	CreateDrier(drier *entity.Drier) error
 
-	GetDriersByUserId(userId string) ([]entity.Drier, error)
+	GetDriersByUserId(userId string) ([]*entity.Drier, error)
 
-	GetDriersByPlcId(plcId string) ([]entity.Drier, error)
+	GetDriersByPlcId(plcId string) ([]*entity.Drier, error)
 
 	CheckDrierIdExists(drierId string) (bool, error)
 
@@ -61,7 +61,7 @@ type DataBaseRepository interface {
 
 	GetAllRegisterAddress(plcId string) ([]string, error)
 
-	GetRegistersByDrierId(plcId string, drierId string) ([]entity.Register, error)
+	GetRegistersByDrierId(plcId string, drierId string) ([]*entity.Register, error)
 
 	UpdateDrierRecipeStepCountAndDeleteRegisterByRegAddress(plcId string, drierId string, registerAddress string) error
 
@@ -73,7 +73,7 @@ type DataBaseRepository interface {
 
 	DeleteRegType(regTypeName string) error
 
-	GetAllRegisterTypes() ([]entity.RegisterType, error)
+	GetAllRegisterTypes() ([]*entity.RegisterType, error)
 
 	GetRegisterTypesFromPlcByDrierId(plcId string, drierId string) ([]string, error)
 

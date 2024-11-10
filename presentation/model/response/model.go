@@ -7,19 +7,19 @@ type StatusMessage struct {
 }
 
 type AllUsers struct {
-	Users []entity.User `json:"users"`
+	Users []*entity.User `json:"users"`
 }
 
 type Plcs struct {
-	Plcs []entity.Plc `json:"plcs"`
+	Plcs []*entity.Plc `json:"plcs"`
 }
 
 type Driers struct {
-	Driers []entity.Drier `json:"driers"`
+	Driers []*entity.Drier `json:"driers"`
 }
 
 type Registers struct {
-	Registers []entity.Register `json:"registers"`
+	Registers []*entity.Register `json:"registers"`
 }
 
 type Token struct {
@@ -27,7 +27,7 @@ type Token struct {
 }
 
 type RegTypes struct {
-	RegTypes []entity.RegisterType `json:"reg_types"`
+	RegTypes []*entity.RegisterType `json:"reg_types"`
 }
 
 type RecipeStepCount struct {

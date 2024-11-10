@@ -17,9 +17,9 @@ type CreateAdminUseCase struct {
 	DataBaseService *service.DataBaseService
 }
 
-func InitCreateAdminUseCase(repo repository.DataBaseRepository) CreateAdminUseCase {
+func InitCreateAdminUseCase(repo repository.DataBaseRepository) *CreateAdminUseCase {
 	service := service.NewDataBaseService(repo)
-	return CreateAdminUseCase{
+	return &CreateAdminUseCase{
 		DataBaseService: service,
 	}
 }
@@ -66,7 +66,7 @@ func (u *CreateAdminUseCase) Execute(request *request.Admin) (error, int) {
 		return fmt.Errorf("failed to generate hashed password"), 2
 	}
 
-	admin := entity.Admin{
+	admin := &entity.Admin{
 		AdminId:  adminId,
 		Email:    request.Email,
 		Password: string(hashedPasswordBytes),

@@ -18,10 +18,10 @@ type AdminLoginUseCase struct {
 	DataBaseService *service.DataBaseService
 }
 
-func InitAdminLoginUseCase(repo repository.DataBaseRepository) AdminLoginUseCase {
+func InitAdminLoginUseCase(repo repository.DataBaseRepository) *AdminLoginUseCase {
 	service := service.NewDataBaseService(repo)
 
-	return AdminLoginUseCase{
+	return &AdminLoginUseCase{
 		DataBaseService: service,
 	}
 }

@@ -15,8 +15,8 @@ type Handler struct {
 	dbRepo repository.DataBaseRepository
 }
 
-func NewHandler(dbRepo repository.DataBaseRepository) Handler {
-	return Handler{
+func NewHandler(dbRepo repository.DataBaseRepository) *Handler {
+	return &Handler{
 		dbRepo,
 	}
 }
@@ -25,7 +25,7 @@ func (h *Handler) UserLoginHandler(w http.ResponseWriter, r *http.Request) {
 	var request request.UserLogin
 
 	if error := json.NewDecoder(r.Body).Decode(&request); error != nil {
-		response := response.StatusMessage{
+		response := &response.StatusMessage{
 			Message: "invalid json format",
 		}
 		w.WriteHeader(http.StatusBadRequest)
@@ -38,7 +38,7 @@ func (h *Handler) UserLoginHandler(w http.ResponseWriter, r *http.Request) {
 	error, errorStatus, token := userLoginUseCase.Execute(&request)
 
 	if error != nil {
-		response := response.StatusMessage{
+		response := &response.StatusMessage{
 			Message: error.Error(),
 		}
 		if errorStatus == 1 {
@@ -51,7 +51,7 @@ func (h *Handler) UserLoginHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	response := response.Token{
+	response := &response.Token{
 		Token: token,
 	}
 
@@ -69,7 +69,7 @@ func (h *Handler) GetDriersHandler(w http.ResponseWriter, r *http.Request) {
 	error, errorStatus, driers := getDriersUseCase.Execute(userId)
 
 	if error != nil {
-		response := response.StatusMessage{
+		response := &response.StatusMessage{
 			Message: error.Error(),
 		}
 		if errorStatus == 1 {
@@ -82,7 +82,7 @@ func (h *Handler) GetDriersHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	response := response.Driers{
+	response := &response.Driers{
 		Driers: driers,
 	}
 
@@ -100,7 +100,7 @@ func (h *Handler) GetRecipeStepCountHandler(w http.ResponseWriter, r *http.Reque
 	error, errorStatus, recipeStepCount := getRecipeSteCountUseCase.Execute(drierId)
 
 	if error != nil {
-		response := response.StatusMessage{
+		response := &response.StatusMessage{
 			Message: error.Error(),
 		}
 		if errorStatus == 1 {
@@ -113,7 +113,7 @@ func (h *Handler) GetRecipeStepCountHandler(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	response := response.RecipeStepCount{
+	response := &response.RecipeStepCount{
 		RecipeStepCount: recipeStepCount,
 	}
 
@@ -131,7 +131,7 @@ func (h *Handler) GetDrierStatusesHandler(w http.ResponseWriter, r *http.Request
 	err, errStatus, drierStatuses := getDrierStatusesUseCase.Execute(plcId, drierId)
 
 	if err != nil {
-		response := response.StatusMessage{
+		response := &response.StatusMessage{
 			Message: err.Error(),
 		}
 
@@ -146,7 +146,7 @@ func (h *Handler) GetDrierStatusesHandler(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	response := response.DrierStatuses{
+	response := &response.DrierStatuses{
 		DrierStatuses: drierStatuses,
 	}
 

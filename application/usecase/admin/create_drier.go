@@ -16,10 +16,10 @@ type CreateDrierUseCase struct {
 	CacheService    *service.CacheService
 }
 
-func InitCreateDrierUseCase(dbRepo repository.DataBaseRepository, cacheRepo repository.CacheRepository) CreateDrierUseCase {
+func InitCreateDrierUseCase(dbRepo repository.DataBaseRepository, cacheRepo repository.CacheRepository) *CreateDrierUseCase {
 	dbService := service.NewDataBaseService(dbRepo)
 	cacheService := service.NewCacheService(cacheRepo)
-	return CreateDrierUseCase{
+	return &CreateDrierUseCase{
 		DataBaseService: dbService,
 		CacheService:    cacheService,
 	}
@@ -46,14 +46,14 @@ func (u *CreateDrierUseCase) Execute(plcId string, drierRequest *request.Drier) 
 	}
 
 	uuid := uuid.New().String()
-	drier := entity.Drier{
+	drier := &entity.Drier{
 		DrierId:         uuid,
 		PlcId:           plcId,
 		RecipeStepCount: "0",
 		Label:           drierRequest.Label,
 	}
 
-	if error := u.DataBaseService.CreateDrier(&drier); error != nil {
+	if error := u.DataBaseService.CreateDrier(drier); error != nil {
 		log.Printf("error occurred with database while creating the drier having plcid -> %s and label -> %s\n", drier.PlcId, drier.Label)
 		return fmt.Errorf("error occurred with database"), 2
 	}

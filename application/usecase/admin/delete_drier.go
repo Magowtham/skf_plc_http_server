@@ -13,10 +13,10 @@ type DeleteDrierUseCase struct {
 	CacheService    *service.CacheService
 }
 
-func InitDeleteDrierUseCase(dbRepo repository.DataBaseRepository, cacheRepo repository.CacheRepository) DeleteDrierUseCase {
+func InitDeleteDrierUseCase(dbRepo repository.DataBaseRepository, cacheRepo repository.CacheRepository) *DeleteDrierUseCase {
 	dbService := service.NewDataBaseService(dbRepo)
 	cacheService := service.NewCacheService(cacheRepo)
-	return DeleteDrierUseCase{
+	return &DeleteDrierUseCase{
 		DataBaseService: dbService,
 		CacheService:    cacheService,
 	}

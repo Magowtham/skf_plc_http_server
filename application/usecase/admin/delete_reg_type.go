@@ -12,10 +12,10 @@ type DeleteRegTypeUseCase struct {
 	DataBaseService *service.DataBaseService
 }
 
-func InitDeleteRegTypeUseCase(repo repository.DataBaseRepository) DeleteRegTypeUseCase {
+func InitDeleteRegTypeUseCase(repo repository.DataBaseRepository) *DeleteRegTypeUseCase {
 	service := service.NewDataBaseService(repo)
 
-	return DeleteRegTypeUseCase{
+	return &DeleteRegTypeUseCase{
 		DataBaseService: service,
 	}
 }

@@ -13,14 +13,14 @@ type GetDriersUseCase struct {
 	DataBaseService *service.DataBaseService
 }
 
-func InitGetDriersUseCase(dbRepo repository.DataBaseRepository) GetDriersUseCase {
+func InitGetDriersUseCase(dbRepo repository.DataBaseRepository) *GetDriersUseCase {
 	dbService := service.NewDataBaseService(dbRepo)
-	return GetDriersUseCase{
+	return &GetDriersUseCase{
 		DataBaseService: dbService,
 	}
 }
 
-func (u *GetDriersUseCase) Execute(userId string) (error, int, []entity.Drier) {
+func (u *GetDriersUseCase) Execute(userId string) (error, int, []*entity.Drier) {
 	if userId == "" {
 		return fmt.Errorf("user id cannot be empty"), 1, nil
 	}

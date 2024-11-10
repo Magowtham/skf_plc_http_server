@@ -50,21 +50,40 @@ func (u *CreateUserUseCase) Execute(request *request.User) (error, int) {
 		return error, 1
 	}
 
+	//spinning a go routine to generate password hash
+	hashedPasswordChannel := make(chan any)
+	go func() {
+		hashedPasswordBytes, err := bcrypt.GenerateFromPassword([]byte(request.Password), 5)
+		if err != nil {
+			hashedPasswordChannel <- err
+			return
+		}
+
+		hashedPasswordChannel <- string(hashedPasswordBytes)
+	}()
+
 	isUserEmailExists, error := u.DataBaseService.CheckUserEmailExists(request.Email)
 
 	if error != nil {
+		//releasing the go routine
+		<-hashedPasswordChannel
 		log.Printf("error occurred with database while checking user email exists for user email -> %s", request.Email)
 		return fmt.Errorf("error occurred with database"), 2
 	}
 
 	if isUserEmailExists {
+		//releasing the go routine
+		<-hashedPasswordChannel
 		return fmt.Errorf("user email already exists"), 1
 	}
 
 	userId := uuid.New().String()
-	hashedPasswordBytes, error := bcrypt.GenerateFromPassword([]byte(request.Password), 14)
 
-	if error != nil {
+	hashedPasswordChannelResult := <-hashedPasswordChannel
+
+	value, ok := hashedPasswordChannelResult.(string)
+
+	if !ok {
 		log.Printf("error occurred while generating hashed password of the user email %s", request.Email)
 		return fmt.Errorf("error occurred while generating hashed password"), 2
 	}
@@ -73,7 +92,7 @@ func (u *CreateUserUseCase) Execute(request *request.User) (error, int) {
 		UserId:   userId,
 		Label:    request.Label,
 		Email:    request.Email,
-		Password: string(hashedPasswordBytes),
+		Password: string(value),
 	}
 
 	error = u.DataBaseService.CreateUser(user)

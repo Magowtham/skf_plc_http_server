@@ -13,14 +13,14 @@ type GetRegisterTypesUseCase struct {
 	DataBaseService *service.DataBaseService
 }
 
-func InitGetRegisterTypesUseCase(dbRepo repository.DataBaseRepository) GetRegisterTypesUseCase {
+func InitGetRegisterTypesUseCase(dbRepo repository.DataBaseRepository) *GetRegisterTypesUseCase {
 	dbService := service.NewDataBaseService(dbRepo)
-	return GetRegisterTypesUseCase{
+	return &GetRegisterTypesUseCase{
 		DataBaseService: dbService,
 	}
 }
 
-func (u *GetRegisterTypesUseCase) Execute(plcId string, drierId string) (error, int, []entity.RegisterType) {
+func (u *GetRegisterTypesUseCase) Execute(plcId string, drierId string) (error, int, []*entity.RegisterType) {
 
 	if plcId == "" {
 		return fmt.Errorf("plc id cannot be empty"), 1, nil

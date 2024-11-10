@@ -14,11 +14,11 @@ type DeleteRegisterUseCase struct {
 	CacheService    *service.CacheService
 }
 
-func InitDeleteRegisterUseCase(dbRepo repository.DataBaseRepository, cacheRepo repository.CacheRepository) DeleteRegisterUseCase {
+func InitDeleteRegisterUseCase(dbRepo repository.DataBaseRepository, cacheRepo repository.CacheRepository) *DeleteRegisterUseCase {
 	dbService := service.NewDataBaseService(dbRepo)
 	cacheService := service.NewCacheService(cacheRepo)
 
-	return DeleteRegisterUseCase{
+	return &DeleteRegisterUseCase{
 		DataBaseService: dbService,
 		CacheService:    cacheService,
 	}

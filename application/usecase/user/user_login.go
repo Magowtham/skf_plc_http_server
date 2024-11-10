@@ -18,9 +18,9 @@ type UserLoginUseCase struct {
 	DataBaseService *service.DataBaseService
 }
 
-func InitUserLoginUseCase(dbRepo repository.DataBaseRepository) UserLoginUseCase {
+func InitUserLoginUseCase(dbRepo repository.DataBaseRepository) *UserLoginUseCase {
 	dbService := service.NewDataBaseService(dbRepo)
-	return UserLoginUseCase{
+	return &UserLoginUseCase{
 		DataBaseService: dbService,
 	}
 }

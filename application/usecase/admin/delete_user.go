@@ -13,11 +13,11 @@ type DeleteUserUseCase struct {
 	CacheService    *service.CacheService
 }
 
-func InitDeleteUserCase(dbRepo repository.DataBaseRepository, cacheRepo repository.CacheRepository) DeleteUserUseCase {
+func InitDeleteUserCase(dbRepo repository.DataBaseRepository, cacheRepo repository.CacheRepository) *DeleteUserUseCase {
 	dbService := service.NewDataBaseService(dbRepo)
 	cacheService := service.NewCacheService(cacheRepo)
 
-	return DeleteUserUseCase{
+	return &DeleteUserUseCase{
 		DataBaseService: dbService,
 		CacheService:    cacheService,
 	}

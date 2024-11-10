@@ -17,10 +17,10 @@ type GiveUserAccessUseCase struct {
 	SmtpClientService service.SmtpClientService
 }
 
-func InitGiveUserAccessUseCase(dbRepo repository.DataBaseRepository, smtpRepo repository.SmtpClientRepository) GiveUserAccessUseCase {
+func InitGiveUserAccessUseCase(dbRepo repository.DataBaseRepository, smtpRepo repository.SmtpClientRepository) *GiveUserAccessUseCase {
 	dataBaseService := service.NewDataBaseService(dbRepo)
 	smtpClientService := service.NewSmtpClientService(smtpRepo)
-	return GiveUserAccessUseCase{
+	return &GiveUserAccessUseCase{
 		DataBaseService:   dataBaseService,
 		SmtpClientService: smtpClientService,
 	}

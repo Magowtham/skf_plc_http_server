@@ -18,8 +18,8 @@ type Handler struct {
 	smtpRepo  repository.SmtpClientRepository
 }
 
-func NewHandler(dbRepo repository.DataBaseRepository, cacheRepo repository.CacheRepository, smtpRepo repository.SmtpClientRepository) Handler {
-	return Handler{
+func NewHandler(dbRepo repository.DataBaseRepository, cacheRepo repository.CacheRepository, smtpRepo repository.SmtpClientRepository) *Handler {
+	return &Handler{
 		dbRepo,
 		cacheRepo,
 		smtpRepo,
@@ -31,7 +31,7 @@ func (h *Handler) DatabaseInitializeHandler(w http.ResponseWriter, r *http.Reque
 	error, errorStatus := initializeDataBaseUseCase.Execute()
 
 	if error != nil {
-		response := response.StatusMessage{
+		response := &response.StatusMessage{
 			Message: "failed to initialize database",
 		}
 		if errorStatus == 1 {
@@ -44,7 +44,7 @@ func (h *Handler) DatabaseInitializeHandler(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	response := response.StatusMessage{
+	response := &response.StatusMessage{
 		Message: "database initialized successfully",
 	}
 
@@ -58,7 +58,7 @@ func (h *Handler) SignUpHandler(w http.ResponseWriter, r *http.Request) {
 	error := json.NewDecoder(r.Body).Decode(&request)
 
 	if error != nil {
-		response := response.StatusMessage{
+		response := &response.StatusMessage{
 			Message: "invalid json format",
 		}
 		w.WriteHeader(http.StatusBadRequest)
@@ -71,7 +71,7 @@ func (h *Handler) SignUpHandler(w http.ResponseWriter, r *http.Request) {
 	error, errorStatus := signUpUseCase.Execute(&request)
 
 	if error != nil {
-		response := response.StatusMessage{
+		response := &response.StatusMessage{
 			Message: error.Error(),
 		}
 
@@ -86,7 +86,7 @@ func (h *Handler) SignUpHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	response := response.StatusMessage{
+	response := &response.StatusMessage{
 		Message: "admin created successfully",
 	}
 
@@ -104,7 +104,7 @@ func (h *Handler) DeleteAdminHandler(w http.ResponseWriter, r *http.Request) {
 	error, errorStatus := adminDeleteUseCase.Execute(adminId)
 
 	if error != nil {
-		response := response.StatusMessage{
+		response := &response.StatusMessage{
 			Message: error.Error(),
 		}
 		if errorStatus == 1 {
@@ -118,7 +118,7 @@ func (h *Handler) DeleteAdminHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	response := response.StatusMessage{
+	response := &response.StatusMessage{
 		Message: "admin deleted successfully",
 	}
 
@@ -132,7 +132,7 @@ func (h *Handler) AdminLoginHandler(w http.ResponseWriter, r *http.Request) {
 	error := json.NewDecoder(r.Body).Decode(&request)
 
 	if error != nil {
-		response := response.StatusMessage{
+		response := &response.StatusMessage{
 			Message: "invalid json format",
 		}
 
@@ -146,7 +146,7 @@ func (h *Handler) AdminLoginHandler(w http.ResponseWriter, r *http.Request) {
 	error, errorStatus, token := adminLoginUseCase.Execute(request)
 
 	if error != nil {
-		response := response.StatusMessage{
+		response := &response.StatusMessage{
 			Message: error.Error(),
 		}
 
@@ -161,7 +161,7 @@ func (h *Handler) AdminLoginHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	response := response.StatusMessage{
+	response := &response.StatusMessage{
 		Message: "login successfull",
 	}
 
@@ -187,7 +187,7 @@ func (h *Handler) CreateUserHandler(w http.ResponseWriter, r *http.Request) {
 	error := json.NewDecoder(r.Body).Decode(&request)
 
 	if error != nil {
-		response := response.StatusMessage{
+		response := &response.StatusMessage{
 			Message: "invalid json format",
 		}
 
@@ -201,7 +201,7 @@ func (h *Handler) CreateUserHandler(w http.ResponseWriter, r *http.Request) {
 	error, errorStatus := createUserUseCase.Execute(&request)
 
 	if error != nil {
-		response := response.StatusMessage{
+		response := &response.StatusMessage{
 			Message: error.Error(),
 		}
 
@@ -216,7 +216,7 @@ func (h *Handler) CreateUserHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	response := response.StatusMessage{
+	response := &response.StatusMessage{
 		Message: "user created successfully",
 	}
 
@@ -234,7 +234,7 @@ func (h *Handler) DeleteUserHandler(w http.ResponseWriter, r *http.Request) {
 	error, errorStatus := deleteUserUseCase.Execute(userId)
 
 	if error != nil {
-		response := response.StatusMessage{
+		response := &response.StatusMessage{
 			Message: error.Error(),
 		}
 
@@ -249,7 +249,7 @@ func (h *Handler) DeleteUserHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	response := response.StatusMessage{
+	response := &response.StatusMessage{
 		Message: "user deleted successfully",
 	}
 
@@ -262,7 +262,7 @@ func (h *Handler) GetAllUsersHandler(w http.ResponseWriter, r *http.Request) {
 	error, _, users := getAllUsersUseCase.Execute()
 
 	if error != nil {
-		response := response.StatusMessage{
+		response := &response.StatusMessage{
 			Message: error.Error(),
 		}
 
@@ -271,7 +271,7 @@ func (h *Handler) GetAllUsersHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	response := response.AllUsers{
+	response := &response.AllUsers{
 		Users: users,
 	}
 	w.WriteHeader(http.StatusOK)
@@ -287,7 +287,7 @@ func (h *Handler) CreatePlcHandler(w http.ResponseWriter, r *http.Request) {
 	error := json.NewDecoder(r.Body).Decode(&request)
 
 	if error != nil {
-		response := response.StatusMessage{
+		response := &response.StatusMessage{
 			Message: "invalid json format",
 		}
 
@@ -299,10 +299,10 @@ func (h *Handler) CreatePlcHandler(w http.ResponseWriter, r *http.Request) {
 
 	createPlcUseCase := admin.InitCreatePlcUseCase(h.dbRepo)
 
-	error, errorStatus := createPlcUseCase.Execute(userId, request)
+	error, errorStatus := createPlcUseCase.Execute(userId, &request)
 
 	if error != nil {
-		response := response.StatusMessage{
+		response := &response.StatusMessage{
 			Message: error.Error(),
 		}
 
@@ -317,7 +317,7 @@ func (h *Handler) CreatePlcHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	response := response.StatusMessage{
+	response := &response.StatusMessage{
 		Message: "plc created successfully",
 	}
 
@@ -333,7 +333,7 @@ func (h *Handler) DeletePlcHandler(w http.ResponseWriter, r *http.Request) {
 	deletePlcUseCase := admin.InitDeletePlcUseCase(h.dbRepo, h.cacheRepo)
 
 	if error, errorStatus := deletePlcUseCase.Execute(plcId); error != nil {
-		response := response.StatusMessage{
+		response := &response.StatusMessage{
 			Message: error.Error(),
 		}
 
@@ -348,7 +348,7 @@ func (h *Handler) DeletePlcHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	response := response.StatusMessage{
+	response := &response.StatusMessage{
 		Message: "plc deleted successfully",
 	}
 
@@ -366,7 +366,7 @@ func (h *Handler) GetPlcsHandler(w http.ResponseWriter, r *http.Request) {
 	error, errorStatus, plcs := getPlcsUseCase.Execute(userId)
 
 	if error != nil {
-		response := response.StatusMessage{
+		response := &response.StatusMessage{
 			Message: error.Error(),
 		}
 
@@ -381,7 +381,7 @@ func (h *Handler) GetPlcsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	response := response.Plcs{
+	response := &response.Plcs{
 		Plcs: plcs,
 	}
 
@@ -397,7 +397,7 @@ func (h *Handler) CreateDrierHandler(w http.ResponseWriter, r *http.Request) {
 	var request request.Drier
 
 	if error := json.NewDecoder(r.Body).Decode(&request); error != nil {
-		response := response.StatusMessage{
+		response := &response.StatusMessage{
 			Message: "invalid json format",
 		}
 
@@ -411,7 +411,7 @@ func (h *Handler) CreateDrierHandler(w http.ResponseWriter, r *http.Request) {
 
 	if error, errorStatus := createDrierUseCase.Execute(plcId, &request); error != nil {
 
-		response := response.StatusMessage{
+		response := &response.StatusMessage{
 			Message: error.Error(),
 		}
 
@@ -426,7 +426,7 @@ func (h *Handler) CreateDrierHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	response := response.StatusMessage{
+	response := &response.StatusMessage{
 		Message: "drier created successfully",
 	}
 
@@ -444,7 +444,7 @@ func (h *Handler) GetDriersHandler(w http.ResponseWriter, r *http.Request) {
 	error, errorStatus, driers := getDriersUseCase.Execute(plcId)
 
 	if error != nil {
-		response := response.StatusMessage{
+		response := &response.StatusMessage{
 			Message: error.Error(),
 		}
 
@@ -459,7 +459,7 @@ func (h *Handler) GetDriersHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	response := response.Driers{
+	response := &response.Driers{
 		Driers: driers,
 	}
 
@@ -478,7 +478,7 @@ func (h *Handler) DeleteDrierHandler(w http.ResponseWriter, r *http.Request) {
 	error, errorStatus := deleteDrierUseCase.Execute(plcId, drierId)
 
 	if error != nil {
-		response := response.StatusMessage{
+		response := &response.StatusMessage{
 			Message: error.Error(),
 		}
 
@@ -493,7 +493,7 @@ func (h *Handler) DeleteDrierHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	response := response.StatusMessage{
+	response := &response.StatusMessage{
 		Message: "drier deleted successfully",
 	}
 
@@ -510,7 +510,7 @@ func (h *Handler) CreateRegisterHandler(w http.ResponseWriter, r *http.Request) 
 	var request request.Register
 
 	if error := json.NewDecoder(r.Body).Decode(&request); error != nil {
-		response := response.StatusMessage{
+		response := &response.StatusMessage{
 			Message: "invalid json format",
 		}
 		w.WriteHeader(http.StatusBadRequest)
@@ -521,7 +521,7 @@ func (h *Handler) CreateRegisterHandler(w http.ResponseWriter, r *http.Request) 
 	createRegisterUseCase := admin.InitCreateRegisterUseCase(h.dbRepo, h.cacheRepo)
 
 	if error, errorStatus := createRegisterUseCase.Execute(plcId, drierId, &request); error != nil {
-		response := response.StatusMessage{
+		response := &response.StatusMessage{
 			Message: error.Error(),
 		}
 		if errorStatus == 1 {
@@ -535,7 +535,7 @@ func (h *Handler) CreateRegisterHandler(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-	response := response.StatusMessage{
+	response := &response.StatusMessage{
 		Message: "register created successfully",
 	}
 
@@ -554,7 +554,7 @@ func (h *Handler) GetRegistersHandler(w http.ResponseWriter, r *http.Request) {
 	error, errorStatus, registers := getRegistersUseCase.Execute(plcId, drierId)
 
 	if error != nil {
-		response := response.StatusMessage{
+		response := &response.StatusMessage{
 			Message: error.Error(),
 		}
 		if errorStatus == 1 {
@@ -568,7 +568,7 @@ func (h *Handler) GetRegistersHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	response := response.Registers{
+	response := &response.Registers{
 		Registers: registers,
 	}
 
@@ -592,7 +592,7 @@ func (h *Handler) DeleteRegisterHandler(w http.ResponseWriter, r *http.Request) 
 	error, errorStatus := deleteRegisterUseCase.Execute(plcId, drierId, regAddress, regTypeName)
 
 	if error != nil {
-		response := response.StatusMessage{
+		response := &response.StatusMessage{
 			Message: error.Error(),
 		}
 		if errorStatus == 1 {
@@ -606,7 +606,7 @@ func (h *Handler) DeleteRegisterHandler(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-	response := response.StatusMessage{
+	response := &response.StatusMessage{
 		Message: "register deleted successfully",
 	}
 
@@ -618,7 +618,7 @@ func (h *Handler) CreateRegisterTypeHandler(w http.ResponseWriter, r *http.Reque
 	var request request.RegisterType
 
 	if error := json.NewDecoder(r.Body).Decode(&request); error != nil {
-		response := response.StatusMessage{
+		response := &response.StatusMessage{
 			Message: "invalid json format",
 		}
 
@@ -630,7 +630,7 @@ func (h *Handler) CreateRegisterTypeHandler(w http.ResponseWriter, r *http.Reque
 	createRegTypeUseCase := admin.InitCreateRegTypeUseCase(h.dbRepo)
 
 	if error, errorStatus := createRegTypeUseCase.Execute(&request); error != nil {
-		response := response.StatusMessage{
+		response := &response.StatusMessage{
 			Message: error.Error(),
 		}
 		if errorStatus == 1 {
@@ -644,7 +644,7 @@ func (h *Handler) CreateRegisterTypeHandler(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	response := response.StatusMessage{
+	response := &response.StatusMessage{
 		Message: "register type created successfully",
 	}
 
@@ -659,7 +659,7 @@ func (h *Handler) DeleteRegTypeHandler(w http.ResponseWriter, r *http.Request) {
 	deleteRegTypeUseCase := admin.InitDeleteRegTypeUseCase(h.dbRepo)
 
 	if error, errorStatus := deleteRegTypeUseCase.Execute(regTypeName); error != nil {
-		response := response.StatusMessage{
+		response := &response.StatusMessage{
 			Message: error.Error(),
 		}
 		if errorStatus == 1 {
@@ -673,7 +673,7 @@ func (h *Handler) DeleteRegTypeHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	response := response.StatusMessage{
+	response := &response.StatusMessage{
 		Message: "register type deleted successfully",
 	}
 
@@ -685,7 +685,7 @@ func (h *Handler) GiveUserAccessHandler(w http.ResponseWriter, r *http.Request) 
 	var request request.UserAccess
 
 	if error := json.NewDecoder(r.Body).Decode(&request); error != nil {
-		response := response.StatusMessage{
+		response := &response.StatusMessage{
 			Message: "invalid json format",
 		}
 
@@ -697,7 +697,7 @@ func (h *Handler) GiveUserAccessHandler(w http.ResponseWriter, r *http.Request) 
 	giveUserAccessUseCase := admin.InitGiveUserAccessUseCase(h.dbRepo, h.smtpRepo)
 
 	if error, errorStatus := giveUserAccessUseCase.Execute(&request); error != nil {
-		response := response.StatusMessage{
+		response := &response.StatusMessage{
 			Message: error.Error(),
 		}
 		if errorStatus == 1 {
@@ -711,7 +711,7 @@ func (h *Handler) GiveUserAccessHandler(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-	response := response.StatusMessage{
+	response := &response.StatusMessage{
 		Message: "email sent successfully",
 	}
 
@@ -730,7 +730,7 @@ func (h *Handler) GetRegisterTypesHandler(w http.ResponseWriter, r *http.Request
 	error, errorStatus, regTypes := getRegisterTypesUseCase.Execute(plcId, drierId)
 
 	if error != nil {
-		response := response.StatusMessage{
+		response := &response.StatusMessage{
 			Message: error.Error(),
 		}
 		if errorStatus == 1 {
@@ -744,7 +744,7 @@ func (h *Handler) GetRegisterTypesHandler(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	response := response.RegTypes{
+	response := &response.RegTypes{
 		RegTypes: regTypes,
 	}
 

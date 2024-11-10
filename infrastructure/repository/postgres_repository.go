@@ -3,7 +3,6 @@ package repository
 import (
 	"database/sql"
 	"fmt"
-	"time"
 
 	"github.com/VsenseTechnologies/skf_plc_http_server/domain/entity"
 )
@@ -150,7 +149,7 @@ func (repo *PostgresRepository) CheckAdminIdExists(adminId string) (bool, error)
 	return exists, error
 }
 
-func (repo *PostgresRepository) CreateAdmin(admin entity.Admin) error {
+func (repo *PostgresRepository) CreateAdmin(admin *entity.Admin) error {
 	query := `INSERT INTO admins (admin_id,email,password) VALUES ($1,$2,$3)`
 	_, error := repo.database.Exec(query, admin.AdminId, admin.Email, admin.Password)
 	return error
@@ -162,7 +161,7 @@ func (repo *PostgresRepository) DeleteAdmin(adminId string) error {
 	return error
 }
 
-func (repo *PostgresRepository) GetAdminByEmail(email string) (entity.Admin, error) {
+func (repo *PostgresRepository) GetAdminByEmail(email string) (*entity.Admin, error) {
 	var admin entity.Admin
 
 	query := `SELECT admin_id,email,password FROM admins WHERE email = $1;`
@@ -172,10 +171,10 @@ func (repo *PostgresRepository) GetAdminByEmail(email string) (entity.Admin, err
 	error := row.Scan(&admin.AdminId, &admin.Email, &admin.Password)
 
 	if error != nil {
-		return admin, error
+		return nil, error
 	}
 
-	return admin, nil
+	return &admin, nil
 }
 
 func (repo *PostgresRepository) CheckUserIdExists(userId string) (bool, error) {
@@ -190,24 +189,18 @@ func (repo *PostgresRepository) CheckUserIdExists(userId string) (bool, error) {
 
 func (repo *PostgresRepository) CheckUserEmailExists(email string) (bool, error) {
 	var exists bool
-	start := time.Now()
 	query := `SELECT EXISTS(SELECT 1 FROM users WHERE email = $1)`
 
 	error := repo.database.QueryRow(query, email).Scan(&exists)
 
-	end := time.Since(start)
-
-	fmt.Printf("1 took -> %v\n", end)
 	return exists, error
 }
 
 func (repo *PostgresRepository) CreateUser(user *entity.User) error {
-	start := time.Now()
+
 	query := `INSERT INTO users (user_id,label,email,password) VALUES ($1,$2,$3,$4)`
 	_, error := repo.database.Exec(query, user.UserId, user.Label, user.Email, user.Password)
-	end := time.Since(start)
 
-	fmt.Printf("2 took -> %v\n", end)
 	return error
 }
 
@@ -220,10 +213,9 @@ func (repo *PostgresRepository) DeleteUser(userId string) error {
 	return error
 }
 
-func (repo *PostgresRepository) GetAllUsers() ([]entity.User, error) {
+func (repo *PostgresRepository) GetAllUsers() ([]*entity.User, error) {
 
-	var users []entity.User
-	var user entity.User
+	var users []*entity.User
 
 	query := `SELECT user_id,email,label FROM users`
 
@@ -234,19 +226,21 @@ func (repo *PostgresRepository) GetAllUsers() ([]entity.User, error) {
 	}
 
 	for rows.Next() {
+		var user entity.User
+
 		error := rows.Scan(&user.UserId, &user.Email, &user.Label)
 
 		if error != nil {
 			return nil, error
 		}
 
-		users = append(users, user)
+		users = append(users, &user)
 	}
 
 	return users, nil
 }
 
-func (repo *PostgresRepository) GetUserById(userId string) (entity.User, error) {
+func (repo *PostgresRepository) GetUserById(userId string) (*entity.User, error) {
 	var user entity.User
 
 	query := `SELECT email,password FROM users WHERE user_id = $1`
@@ -256,13 +250,13 @@ func (repo *PostgresRepository) GetUserById(userId string) (entity.User, error) 
 	error := row.Scan(&user.Email, &user.Password)
 
 	if error != nil {
-		return user, error
+		return nil, error
 	}
 
-	return user, nil
+	return &user, nil
 }
 
-func (repo *PostgresRepository) GetUserByEmail(email string) (entity.User, error) {
+func (repo *PostgresRepository) GetUserByEmail(email string) (*entity.User, error) {
 
 	var user entity.User
 
@@ -271,10 +265,10 @@ func (repo *PostgresRepository) GetUserByEmail(email string) (entity.User, error
 	error := row.Scan(&user.UserId, &user.Email, &user.Label, &user.Password)
 
 	if error != nil {
-		return user, error
+		return nil, error
 	}
 
-	return user, nil
+	return &user, nil
 }
 
 func (repo *PostgresRepository) CheckPlcIdExists(plcId string) (bool, error) {
@@ -288,7 +282,7 @@ func (repo *PostgresRepository) CheckPlcIdExists(plcId string) (bool, error) {
 	return exists, error
 }
 
-func (repo *PostgresRepository) CreatePlc(plc entity.Plc) error {
+func (repo *PostgresRepository) CreatePlc(plc *entity.Plc) error {
 	query1 := fmt.Sprintf(`
 			CREATE TABLE IF NOT EXISTS %v (
 				reg_address VARCHAR(20) PRIMARY KEY,
@@ -357,10 +351,9 @@ func (repo *PostgresRepository) DeletePlc(plcId string) error {
 	return nil
 }
 
-func (repo *PostgresRepository) GetPlcsByUserId(userId string) ([]entity.Plc, error) {
+func (repo *PostgresRepository) GetPlcsByUserId(userId string) ([]*entity.Plc, error) {
 
-	var plcs []entity.Plc
-	var plc entity.Plc
+	var plcs []*entity.Plc
 
 	query := `SELECT plc_id,user_id,label FROM plcs WHERE user_id = $1`
 
@@ -371,13 +364,15 @@ func (repo *PostgresRepository) GetPlcsByUserId(userId string) ([]entity.Plc, er
 	}
 
 	for rows.Next() {
+		var plc entity.Plc
+
 		error := rows.Scan(&plc.PlcId, &plc.UserId, &plc.Label)
 
 		if error != nil {
 			return nil, error
 		}
 
-		plcs = append(plcs, plc)
+		plcs = append(plcs, &plc)
 	}
 
 	return plcs, nil
@@ -402,10 +397,9 @@ func (repo *PostgresRepository) DeleteDrier(drierId string) error {
 	return error
 }
 
-func (repo *PostgresRepository) GetDriersByUserId(userId string) ([]entity.Drier, error) {
+func (repo *PostgresRepository) GetDriersByUserId(userId string) ([]*entity.Drier, error) {
 
-	var driers []entity.Drier
-	var direr entity.Drier
+	var driers []*entity.Drier
 
 	query := `SELECT d.drier_id, d.plc_id, d.recipe_step_count,d.label
 				FROM driers d
@@ -421,21 +415,22 @@ func (repo *PostgresRepository) GetDriersByUserId(userId string) ([]entity.Drier
 	}
 
 	for rows.Next() {
+		var direr entity.Drier
+
 		error := rows.Scan(&direr.DrierId, &direr.PlcId, &direr.RecipeStepCount, &direr.Label)
 		if error != nil {
 			return nil, error
 		}
 
-		driers = append(driers, direr)
+		driers = append(driers, &direr)
 	}
 
 	return driers, nil
 }
 
-func (repo *PostgresRepository) GetDriersByPlcId(plcId string) ([]entity.Drier, error) {
+func (repo *PostgresRepository) GetDriersByPlcId(plcId string) ([]*entity.Drier, error) {
 
-	var driers []entity.Drier
-	var direr entity.Drier
+	var driers []*entity.Drier
 
 	query := `SELECT drier_id,plc_id,recipe_step_count,label FROM driers WHERE plc_id = $1`
 
@@ -446,12 +441,14 @@ func (repo *PostgresRepository) GetDriersByPlcId(plcId string) ([]entity.Drier, 
 	}
 
 	for rows.Next() {
+		var direr entity.Drier
+
 		error := rows.Scan(&direr.DrierId, &direr.PlcId, &direr.RecipeStepCount, &direr.Label)
 		if error != nil {
 			return nil, error
 		}
 
-		driers = append(driers, direr)
+		driers = append(driers, &direr)
 	}
 
 	return driers, nil
@@ -601,10 +598,9 @@ func (repo *PostgresRepository) GetAllRegisterAddress(plcId string) ([]string, e
 	return registers, nil
 }
 
-func (repo *PostgresRepository) GetRegistersByDrierId(plcId string, drierId string) ([]entity.Register, error) {
+func (repo *PostgresRepository) GetRegistersByDrierId(plcId string, drierId string) ([]*entity.Register, error) {
 
-	var registers []entity.Register
-	var register entity.Register
+	var registers []*entity.Register
 
 	query := fmt.Sprintf(`SELECT reg_address,reg_type,drier_id,label,value,last_update_timestamp FROM %s WHERE drier_id = $1`, plcId)
 
@@ -615,13 +611,15 @@ func (repo *PostgresRepository) GetRegistersByDrierId(plcId string, drierId stri
 	}
 
 	for rows.Next() {
+		var register entity.Register
+
 		error := rows.Scan(&register.RegAddress, &register.RegType, &register.DrierId, &register.Label, &register.Value, &register.LastUpdateTimestamp)
 
 		if error != nil {
 			return nil, error
 		}
 
-		registers = append(registers, register)
+		registers = append(registers, &register)
 	}
 
 	return registers, nil
@@ -649,10 +647,9 @@ func (repo *PostgresRepository) DeleteRegType(regTypeName string) error {
 	return error
 }
 
-func (repo *PostgresRepository) GetAllRegisterTypes() ([]entity.RegisterType, error) {
+func (repo *PostgresRepository) GetAllRegisterTypes() ([]*entity.RegisterType, error) {
 	query := `SELECT type,label FROM register_types`
-	var regTypes []entity.RegisterType
-	var regType entity.RegisterType
+	var regTypes []*entity.RegisterType
 
 	rows, error := repo.database.Query(query)
 
@@ -661,10 +658,12 @@ func (repo *PostgresRepository) GetAllRegisterTypes() ([]entity.RegisterType, er
 	}
 
 	for rows.Next() {
+		var regType entity.RegisterType
+
 		if error := rows.Scan(&regType.Type, &regType.Label); error != nil {
 			return nil, error
 		}
-		regTypes = append(regTypes, regType)
+		regTypes = append(regTypes, &regType)
 	}
 
 	return regTypes, error

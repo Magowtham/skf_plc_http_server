@@ -13,10 +13,10 @@ type DeletePlcUseCase struct {
 	CacheService    *service.CacheService
 }
 
-func InitDeletePlcUseCase(dbRepo repository.DataBaseRepository, cacheRepo repository.CacheRepository) DeletePlcUseCase {
+func InitDeletePlcUseCase(dbRepo repository.DataBaseRepository, cacheRepo repository.CacheRepository) *DeletePlcUseCase {
 	dbService := service.NewDataBaseService(dbRepo)
 	cacheService := service.NewCacheService(cacheRepo)
-	return DeletePlcUseCase{
+	return &DeletePlcUseCase{
 		DatabaseService: dbService,
 		CacheService:    cacheService,
 	}

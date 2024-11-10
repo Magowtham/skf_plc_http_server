@@ -12,9 +12,9 @@ type InitializeDataBaseUseCase struct {
 	DataBaseService *service.DataBaseService
 }
 
-func InitInitializeDataBaseUseCase(repo repository.DataBaseRepository) InitializeDataBaseUseCase {
+func InitInitializeDataBaseUseCase(repo repository.DataBaseRepository) *InitializeDataBaseUseCase {
 	service := service.NewDataBaseService(repo)
-	return InitializeDataBaseUseCase{
+	return &InitializeDataBaseUseCase{
 		DataBaseService: service,
 	}
 }

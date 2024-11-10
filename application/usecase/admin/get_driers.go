@@ -13,15 +13,15 @@ type GetDriersUseCase struct {
 	DataBaseService *service.DataBaseService
 }
 
-func InitGetDriersUseCase(repo repository.DataBaseRepository) GetDriersUseCase {
+func InitGetDriersUseCase(repo repository.DataBaseRepository) *GetDriersUseCase {
 	service := service.NewDataBaseService(repo)
 
-	return GetDriersUseCase{
+	return &GetDriersUseCase{
 		DataBaseService: service,
 	}
 }
 
-func (u *GetDriersUseCase) Execute(plcId string) (error, int, []entity.Drier) {
+func (u *GetDriersUseCase) Execute(plcId string) (error, int, []*entity.Drier) {
 	if plcId == "" {
 		return fmt.Errorf("plc id cannot be empty"), 1, nil
 	}

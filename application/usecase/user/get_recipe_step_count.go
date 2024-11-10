@@ -12,9 +12,9 @@ type GetRecipeStepCountUseCase struct {
 	DataBaseService *service.DataBaseService
 }
 
-func InitGetRecipeStepCountUseCase(dbRepo repository.DataBaseRepository) GetRecipeStepCountUseCase {
+func InitGetRecipeStepCountUseCase(dbRepo repository.DataBaseRepository) *GetRecipeStepCountUseCase {
 	dbService := service.NewDataBaseService(dbRepo)
-	return GetRecipeStepCountUseCase{
+	return &GetRecipeStepCountUseCase{
 		DataBaseService: dbService,
 	}
 }

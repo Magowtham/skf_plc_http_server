@@ -17,10 +17,10 @@ type CreateRegisterUseCase struct {
 	CacheService    *service.CacheService
 }
 
-func InitCreateRegisterUseCase(dbRepo repository.DataBaseRepository, cacheRepo repository.CacheRepository) CreateRegisterUseCase {
+func InitCreateRegisterUseCase(dbRepo repository.DataBaseRepository, cacheRepo repository.CacheRepository) *CreateRegisterUseCase {
 	dbService := service.NewDataBaseService(dbRepo)
 	cacheService := service.NewCacheService(cacheRepo)
-	return CreateRegisterUseCase{
+	return &CreateRegisterUseCase{
 		DataBaseService: dbService,
 		CacheService:    cacheService,
 	}
@@ -94,7 +94,7 @@ func (u *CreateRegisterUseCase) Execute(plcId string, drierId string, registerRe
 
 	regex := regexp.MustCompile(`^stptmp\d+$`)
 
-	register := entity.Register{
+	register := &entity.Register{
 		DrierId:             drierId,
 		RegAddress:          registerRequest.RegAddress,
 		RegType:             registerRequest.RegType,
@@ -104,7 +104,7 @@ func (u *CreateRegisterUseCase) Execute(plcId string, drierId string, registerRe
 	}
 
 	if regex.MatchString(registerRequest.RegType) {
-		if error := u.DataBaseService.UpdateDrierRecipeStepCountAndCreateRegister(plcId, &register); error != nil {
+		if error := u.DataBaseService.UpdateDrierRecipeStepCountAndCreateRegister(plcId, register); error != nil {
 			log.Printf("error occurred while update and creating the register, create register, plc id -> %s, drier id -> %s", plcId, drierId)
 			return fmt.Errorf("error occurred with database"), 2
 		}
@@ -112,12 +112,12 @@ func (u *CreateRegisterUseCase) Execute(plcId string, drierId string, registerRe
 		return nil, 0
 	}
 
-	if error := u.DataBaseService.CreateRegister(plcId, &register); error != nil {
+	if error := u.DataBaseService.CreateRegister(plcId, register); error != nil {
 		log.Printf("error occurred with database while creating the register having plc id -> %s and drier id -> %s\n", plcId, drierId)
 		return fmt.Errorf("error occurred with database"), 2
 	}
 
-	if error := u.CacheService.CreateRegister(plcId, &register); error != nil {
+	if error := u.CacheService.CreateRegister(plcId, register); error != nil {
 		log.Printf("error occurred with cache while creating the register having plc id -> %s and drier id -> %s\n", plcId, drierId)
 		return fmt.Errorf("error occurred with cache"), 2
 	}

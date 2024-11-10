@@ -14,10 +14,10 @@ type CreateRegTypeUseCase struct {
 	DataBaseService *service.DataBaseService
 }
 
-func InitCreateRegTypeUseCase(repo repository.DataBaseRepository) CreateRegTypeUseCase {
+func InitCreateRegTypeUseCase(repo repository.DataBaseRepository) *CreateRegTypeUseCase {
 	service := service.NewDataBaseService(repo)
 
-	return CreateRegTypeUseCase{
+	return &CreateRegTypeUseCase{
 		DataBaseService: service,
 	}
 }
@@ -42,12 +42,12 @@ func (h *CreateRegTypeUseCase) Execute(regTypeRequest *request.RegisterType) (er
 		return fmt.Errorf("register type exists"), 1
 	}
 
-	regType := entity.RegisterType{
+	regType := &entity.RegisterType{
 		Type:  regTypeRequest.Type,
 		Label: regTypeRequest.Label,
 	}
 
-	if error := h.DataBaseService.CreateRegType(&regType); error != nil {
+	if error := h.DataBaseService.CreateRegType(regType); error != nil {
 		log.Printf("error occurred with database while creating the reg type, create reg type, reg type -> %s, reg label -> %s\n", regTypeRequest.Type, regTypeRequest.Label)
 		return fmt.Errorf("error occurred with database"), 2
 	}
