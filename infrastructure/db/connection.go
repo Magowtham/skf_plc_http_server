@@ -10,10 +10,10 @@ import (
 
 func Connect() (*sql.DB, error) {
 
-	url := os.Getenv("S1_DATABASE_URL")
+	url := os.Getenv("DATABASE_URL")
 
 	if url == "" {
-		log.Fatalln("missing environment variable S1_DATABASE_URL")
+		log.Fatalln("missing environment variable DATABASE_URL")
 	}
 
 	db, error := sql.Open("pgx", url)

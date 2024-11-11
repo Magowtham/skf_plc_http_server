@@ -60,10 +60,10 @@ func (u *UserLoginUseCase) Execute(userRequest *request.UserLogin) (error, int, 
 		return fmt.Errorf("incorrect password"), 1, ""
 	}
 
-	secreteKey := os.Getenv("S1_SECRETE_KEY")
+	secreteKey := os.Getenv("SECRETE_KEY")
 
 	if secreteKey == "" {
-		log.Printf("missing env variable S1_SECRETE_KEY")
+		log.Printf("missing env variable SECRETE_KEY")
 		return fmt.Errorf("error occurred while generating the token"), 2, ""
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{

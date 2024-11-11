@@ -9,9 +9,9 @@ import (
 )
 
 func Connect() (*redis.Client, error) {
-	url := os.Getenv("S1_CACHE_URL")
+	url := os.Getenv("CACHE_URL")
 	if url == "" {
-		log.Fatalln("missing env variable S1_CACHE URL")
+		log.Fatalln("missing env variable CACHE URL")
 	}
 
 	options, err := redis.ParseURL(url)
