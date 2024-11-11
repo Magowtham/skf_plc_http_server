@@ -67,7 +67,13 @@ func (repo *PostgresRepository) Init() error {
 				created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 			);`
 
-	query7 := `CREATE OR REPLACE FUNCTION delete_user(fn_user_id VARCHAR(255))RETURNS VOID AS $$
+	query7 := `CREATE TABLE IF NOT EXISTS user_feedbacks (
+				user_id VARCHAR(255) NOT NULL,
+				feedback TEXT NOT NULL,
+				FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+			);`
+
+	query8 := `CREATE OR REPLACE FUNCTION delete_user(fn_user_id VARCHAR(255))RETURNS VOID AS $$
 			    DECLARE
 					plc_row RECORD;
 				BEGIN
@@ -120,6 +126,11 @@ func (repo *PostgresRepository) Init() error {
 	if _, error := tx.Exec(query7); error != nil {
 		tx.Rollback()
 		return error
+	}
+
+	if _, err := tx.Exec(query8); err != nil {
+		tx.Rollback()
+		return err
 	}
 
 	if error := tx.Commit(); error != nil {
@@ -703,4 +714,10 @@ func (repo *PostgresRepository) GetRegisterValueByRegisterTypeAndDrierId(plcId s
 	query := fmt.Sprintf(`SELECT value FROM %s WHERE drier_id=$1 AND reg_type=$2`, plcId)
 	err := repo.database.QueryRow(query, drierId, regType).Scan(&regValue)
 	return regValue, err
+}
+
+func (repo *PostgresRepository) CreateUserFeedback(userId string, feedback string) error {
+	query := `INSERT INTO user_feedbacks (user_id,feedback) VALUES ($1,$2)`
+	_, err := repo.database.Exec(query, userId, feedback)
+	return err
 }

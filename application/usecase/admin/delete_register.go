@@ -63,9 +63,9 @@ func (u *DeleteRegisterUseCase) Execute(plcId string, drierId string, registerAd
 		return fmt.Errorf("register address not exists"), 1
 	}
 
-	regex := regexp.MustCompile(`^stptmp\d+$`)
+	rcpStepTimeRegex := regexp.MustCompile(`^rcp_stp_\d+_tm$`)
 
-	if regex.MatchString(registerType) {
+	if rcpStepTimeRegex.MatchString(registerType) {
 		if error := u.DataBaseService.UpdateDrierRecipeStepCountAndDeleteRegisterByRegAddress(plcId, drierId, registerAddress); error != nil {
 			log.Printf("error occurred with database while update and deleting register, plc id -> %s, drier id -> %s reg address -> %s reg type -> %s ", plcId, drierId, registerAddress, registerType)
 			return fmt.Errorf("error occurred with database"), 2

@@ -29,7 +29,8 @@ func (repo *RedisRepository) CreateDrier(drierId string) error {
 func (repo *RedisRepository) DeleteDrier(drierId string) error {
 	key1 := fmt.Sprintf("rcp_stp_ct_%s", drierId)
 	key2 := fmt.Sprintf("rcp_stp_tp_%s", drierId)
-	_, err := repo.client.Del(context.Background(), key1, key2).Result()
+	key3 := fmt.Sprintf("pid_%s", drierId)
+	_, err := repo.client.Del(context.Background(), key1, key2, key3).Result()
 	return err
 }
 

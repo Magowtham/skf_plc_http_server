@@ -153,3 +153,48 @@ func (h *Handler) GetDrierStatusesHandler(w http.ResponseWriter, r *http.Request
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(response)
 }
+
+func (h *Handler) CreateUserFeedbackHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+
+	userId := vars["userId"]
+
+	var request request.UserFeedback
+
+	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
+		response := &response.StatusMessage{
+			Message: "invalid json format",
+		}
+
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(response)
+		return
+	}
+
+	createUserFeedbackUseCase := user.InitCreateUserFeedbackUseCase(h.dbRepo)
+
+	err, errStatus := createUserFeedbackUseCase.Execute(userId, &request)
+
+	if err != nil {
+		response := &response.StatusMessage{
+			Message: err.Error(),
+		}
+
+		if errStatus == 1 {
+			w.WriteHeader(http.StatusBadRequest)
+			json.NewEncoder(w).Encode(response)
+			return
+		}
+
+		w.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(w).Encode(response)
+		return
+	}
+
+	response := &response.StatusMessage{
+		Message: "user feedback submitted successfully",
+	}
+
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(response)
+}

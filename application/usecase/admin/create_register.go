@@ -81,6 +81,20 @@ func (u *CreateRegisterUseCase) Execute(plcId string, drierId string, registerRe
 		return fmt.Errorf("register address exist"), 1
 	}
 
+	isRegTypeNameExistsInRegTypes, err := u.DataBaseService.CheckRegTypeNameExistsInRegTypes(registerRequest.RegType)
+
+	if err != nil {
+		log.Printf("error occurred with database while checking register type name exists in register types, create register, plc id -> %v, drier id -> %v,error -> %v\n", plcId, drierId, err.Error())
+		return fmt.Errorf("error occurred with database"), 2
+	}
+
+	rcpStpTimeRegex := regexp.MustCompile(`^rcp_stp_\d+_tm$`)
+	rcpStpTempRegex := regexp.MustCompile(`^rcp_stp_\d+_tp$`)
+
+	if !isRegTypeNameExistsInRegTypes && !rcpStpTimeRegex.MatchString(registerRequest.RegType) && !rcpStpTempRegex.MatchString(registerRequest.RegType) {
+		return fmt.Errorf("invalid register type"), 1
+	}
+
 	isRegisterTypeExists, error := u.DataBaseService.CheckRegisterTypeExists(plcId, drierId, registerRequest.RegType)
 
 	if error != nil {
@@ -92,8 +106,6 @@ func (u *CreateRegisterUseCase) Execute(plcId string, drierId string, registerRe
 		return fmt.Errorf("register type exists"), 1
 	}
 
-	regex := regexp.MustCompile(`^stptmp\d+$`)
-
 	register := &entity.Register{
 		DrierId:             drierId,
 		RegAddress:          registerRequest.RegAddress,
@@ -103,7 +115,7 @@ func (u *CreateRegisterUseCase) Execute(plcId string, drierId string, registerRe
 		LastUpdateTimestamp: time.Now().UTC(),
 	}
 
-	if regex.MatchString(registerRequest.RegType) {
+	if rcpStpTimeRegex.MatchString(registerRequest.RegType) {
 		if error := u.DataBaseService.UpdateDrierRecipeStepCountAndCreateRegister(plcId, register); error != nil {
 			log.Printf("error occurred while update and creating the register, create register, plc id -> %s, drier id -> %s", plcId, drierId)
 			return fmt.Errorf("error occurred with database"), 2

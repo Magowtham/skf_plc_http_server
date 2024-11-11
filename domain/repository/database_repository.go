@@ -80,4 +80,6 @@ type DataBaseRepository interface {
 	GetRecipeStepCount(drierId string) (int, error)
 
 	GetRegisterValueByRegisterTypeAndDrierId(plcId string, drierId string, regType string) (string, error)
+
+	CreateUserFeedback(userId string, feedback string) error
 }

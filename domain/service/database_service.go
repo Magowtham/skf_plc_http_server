@@ -169,3 +169,7 @@ func (service *DataBaseService) GetRecipeStepCount(drierId string) (int, error) 
 func (service *DataBaseService) GetRegisterValueByRegisterTypeAndDrierId(plcId string, drierId string, regType string) (string, error) {
 	return service.DataBaseRepo.GetRegisterValueByRegisterTypeAndDrierId(plcId, drierId, regType)
 }
+
+func (service *DataBaseService) CreateUserFeedback(userId string, feedback string) error {
+	return service.DataBaseRepo.CreateUserFeedback(userId, feedback)
+}
