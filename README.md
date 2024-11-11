@@ -3,7 +3,7 @@
 ## 1. Database Initialization Process
 
 ```bash
-https://skfplc.vsensetech.in/admin/database/init
+https://skfplc.http.vsensetech.in/admin/database/init
 ```
 
 ### HTTP Method → GET
@@ -29,7 +29,7 @@ HTTP status codes
 ## 2. Creating Admin Account
 
 ```bash
-https://skfplc.vsensetech.in/root/create/admin
+https://skfplc.http.vsensetech.in/root/create/admin
 ```
 
 ### HTTP Method → POST
@@ -46,7 +46,7 @@ Request Body format
 ## 3. Deleting Admin Account
 
 ```bash
-https://skfplc.vsensetech.in/root/delete/admin/__ADMIN_ID__
+https://skfplc.http.vsensetech.in/root/delete/admin/__ADMIN_ID__
 ```
 
 ### HTTP Method → DELETE
@@ -54,7 +54,7 @@ https://skfplc.vsensetech.in/root/delete/admin/__ADMIN_ID__
 ## 4. Admin Login
 
 ```bash
-https://skfplc.vsensetech.in/login/admin
+https://skfplc.http.vsensetech.in/login/admin
 ```
 
 ### HTTP Method → POST
@@ -73,7 +73,7 @@ HTTP only cookie will be get setted in the cookie section of the browser
 ## 5. Create User
 
 ```bash
-https://skfplc.vsensetech.in/admin/create/user
+https://skfplc.http.vsensetech.in/admin/create/user
 ```
 
 ### HTTP Method → POST
@@ -91,7 +91,7 @@ Request body format
 ## 6. Delete User
 
 ```bash
-https://skfplc.vsensetech.in/admin/delete/user/__USER_ID__
+https://skfplc.http.vsensetech.in/admin/delete/user/__USER_ID__
 ```
 
 ### HTTP Method → DELETE
@@ -99,7 +99,7 @@ https://skfplc.vsensetech.in/admin/delete/user/__USER_ID__
 ## 7. Get Users
 
 ```bash
-https://skfplc.vsensetech.in/admin/users
+https://skfplc.http.vsensetech.in/admin/users
 ```
 
 ### HTTP Method → GET
@@ -121,7 +121,7 @@ HTTP Response format
 ## 8. Create PLC
 
 ```bash
-https://skfplc.vsensetech.in/admin/create/plc/__USER_ID__
+https://skfplc.http.vsensetech.in/admin/create/plc/__USER_ID__
 ```
 
 ### HTTP Method → POST
@@ -138,7 +138,7 @@ HTTP Request body format
 ## 9. Delete PLC
 
 ```bash
-https://skfplc.vsensetech.in/admin/delete/plc/__PLC_ID__
+https://skfplc.http.vsensetech.in/admin/delete/plc/__PLC_ID__
 ```
 
 ### HTTP Method → DELETE
@@ -146,7 +146,7 @@ https://skfplc.vsensetech.in/admin/delete/plc/__PLC_ID__
 ## 10. Get Plcs
 
 ```bash
-https://skfplc.vsensetech.in/admin/plcs/__USER_ID__
+https://skfplc.http.vsensetech.in/admin/plcs/__USER_ID__
 ```
 
 ### HTTP Method → GET
@@ -168,7 +168,7 @@ HTTP Response format
 ## 11. Create Drier
 
 ```bash
-https://skfplc.vsensetech.in/admin/create/drier/__PLC_ID__
+https://skfplc.http.vsensetech.in/admin/create/drier/__PLC_ID__
 ```
 
 ### HTTP Method → POST
@@ -184,7 +184,7 @@ HTTP Request format
 ## 12. Delete Drier
 
 ```bash
-https://skfplc.vsensetech.in/admin/delete/drier/__PLC_ID__/__DRIER_ID__
+https://skfplc.http.vsensetech.in/admin/delete/drier/__PLC_ID__/__DRIER_ID__
 ```
 
 ### HTTP Method → DELETE
@@ -192,7 +192,7 @@ https://skfplc.vsensetech.in/admin/delete/drier/__PLC_ID__/__DRIER_ID__
 ## 13. Get Driers
 
 ```bash
-https://skfplc.vsensetech.in/admin/driers/__PLC_ID__
+https://skfplc.http.vsensetech.in/admin/driers/__PLC_ID__
 ```
 
 ### HTTP Method → GET
@@ -216,7 +216,7 @@ HTTP Response format
 ## 14. Create Register
 
 ```bash
-https://skfplc.vsensetech.in/admin/create/register/__PLC_ID__/__DRIER_ID__
+https://skfplc.http.vsensetech.in/admin/create/register/__PLC_ID__/__DRIER_ID__
 ```
 
 ### HTTP Method → POST
@@ -234,7 +234,7 @@ HTTP Request format
 ## 15.  Delete Register
 
 ```bash
-https://skfplc.vsensetech.in/admin/delete/register/__PLC_ID__/__DRIER_ID__/__REG_ADDRESS__/__REG_TYPE__
+https://skfplc.http.vsensetech.in/admin/delete/register/__PLC_ID__/__DRIER_ID__/__REG_ADDRESS__/__REG_TYPE__
 ```
 
 ### HTTP Method → DELETE
@@ -242,7 +242,7 @@ https://skfplc.vsensetech.in/admin/delete/register/__PLC_ID__/__DRIER_ID__/__REG
 ## 16  Get Registers
 
 ```bash
-https://skfplc.vsensetech.in/admin/registers/__PLC_ID__/__DRIER_ID__
+https://skfplc.http.vsensetech.in/admin/registers/__PLC_ID__/__DRIER_ID__
 ```
 
 ### HTTP Method → GET
@@ -268,7 +268,7 @@ HTTP Response format
 ## 17.  Create Register Type
 
 ```bash
-https://skfplc.vsensetech.in/admin/create/register_type
+https://skfplc.http.vsensetech.in/admin/create/register_type
 ```
 
 ### HTTP Method → POST
@@ -285,7 +285,7 @@ HTTP Request fromat
 ## 18.  Delete Register Type
 
 ```bash
-https://skfplc.vsensetech.in/admin/delete/register_type/__REGISTER_TYPE__
+https://skfplc.http.vsensetech.in/admin/delete/register_type/__REGISTER_TYPE__
 ```
 
 ### HTTP Method → DELETE
@@ -293,7 +293,7 @@ https://skfplc.vsensetech.in/admin/delete/register_type/__REGISTER_TYPE__
 ## 19.  Give Access to User
 
 ```bash
-https://skfplc.vsensetech.in/admin/give/user/access
+https://skfplc.http.vsensetech.in/admin/give/user/access
 ```
 
 ### HTTP Method → POST
@@ -310,7 +310,7 @@ HTTP Request format
 ## 20.  User Login
 
 ```bash
-https://skfplc.vsensetech.in/user/login
+https://skfplc.http.vsensetech.in/user/login
 ```
 
 ### HTTP Method → POST
@@ -336,7 +336,7 @@ HTTP Response format
 ## 21.  Get User Driers
 
 ```bash
-https://skfplc.vsensetech.in/user/driers/__USER_ID__
+https://skfplc.http.vsensetech.in/user/driers/__USER_ID__
 ```
 
 ### HTTP Method → GET
@@ -371,7 +371,7 @@ HTTP Request body format
 ## 22.  Get Register Types For Form
 
 ```bash
-https://skfplc.vsensetech.in/admin/register/types/__PLC_ID__/__DRIER_ID__
+https://skfplc.http.vsensetech.in/admin/register/types/__PLC_ID__/__DRIER_ID__
 ```
 
 ### HTTP Method → GET
@@ -393,7 +393,7 @@ HTTP Response format
 ## 23.  Get Recipe Step Count
 
 ```bash
-https://skfplc.vsensetech.in/user/recipe/step/count/__DRIER_ID__
+https://skfplc.http.vsensetech.in/user/recipe/step/count/__DRIER_ID__
 ```
 
 ### HTTP Method → GET
@@ -409,7 +409,7 @@ HTTP Response format
 ## 24.  Get Drier Prev Statuses
 
 ```bash
-https://skfplc.vsensetech.in/user/drier/statuses/__PLC_ID__/__DRIER_ID__
+https://skfplc.http.vsensetech.in/user/drier/statuses/__PLC_ID__/__DRIER_ID__
 ```
 
 ### HTTP Method → GET
@@ -433,7 +433,7 @@ HTTP Response format
 ## 25.  Create User Feedback
 
 ```bash
-https://skfplc.vsensetech.in/user/feedback/__USER_ID__
+https://skfplc.http.vsensetech.in/user/feedback/__USER_ID__
 ```
 
 ### HTTP Method → POST
