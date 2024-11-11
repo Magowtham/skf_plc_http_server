@@ -429,3 +429,19 @@ HTTP Response format
 }
 
 ```
+
+## 25.  Create User Feedback
+
+```bash
+https://skfplc.vsensetech.in/user/feedback/__USER_ID__
+```
+
+### HTTP Method → POST
+
+HTTP Request format
+
+```json
+{
+    "feedback":"your app is perfect"
+}
+```
