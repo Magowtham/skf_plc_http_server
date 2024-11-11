@@ -14,25 +14,25 @@ type SmtpClient struct {
 }
 
 func SetupClient() SmtpClient {
-	smtpUserName := os.Getenv("SMTP_USERNAME")
-	smtpPassword := os.Getenv("SMTP_PASSWORD")
-	smtpServiceHost := os.Getenv("SMTP_SERVICE_HOST")
-	smtpServicePort := os.Getenv("SMTP_SERVICE_PORT")
+	smtpUserName := os.Getenv("S1_SMTP_USERNAME")
+	smtpPassword := os.Getenv("S1_SMTP_PASSWORD")
+	smtpServiceHost := os.Getenv("S1_SMTP_SERVICE_HOST")
+	smtpServicePort := os.Getenv("S1_SMTP_SERVICE_PORT")
 
 	if smtpUserName == "" {
-		log.Fatalln("missing the env variable SMTP_USERNAME")
+		log.Fatalln("missing the env variable S1_SMTP_USERNAME")
 	}
 
 	if smtpPassword == "" {
-		log.Fatalln("missing the env variable SMTP_PASSWORD")
+		log.Fatalln("missing the env variable S1_SMTP_PASSWORD")
 	}
 
 	if smtpServiceHost == "" {
-		log.Fatalln("missing the env variable SMTP_SERVICE_HOST")
+		log.Fatalln("missing the env variable S1_SMTP_SERVICE_HOST")
 	}
 
 	if smtpServicePort == "" {
-		log.Fatalln("missing the env variable SMTP_SERVICE_PORT")
+		log.Fatalln("missing the env variable S1_SMTP_SERVICE_PORT")
 	}
 
 	smtpAuth := smtp.PlainAuth("", smtpUserName, smtpPassword, smtpServiceHost)

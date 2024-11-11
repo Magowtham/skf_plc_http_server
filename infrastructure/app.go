@@ -13,10 +13,10 @@ import (
 )
 
 func Run() {
-	serverAddress := os.Getenv("SERVER_ADDRESS")
+	serverAddress := os.Getenv("S1_SERVER_ADDRESS")
 
 	if serverAddress == "" {
-		log.Fatalln("missing environment variable SERVER_ADDRESS")
+		log.Fatalln("missing environment variable S1_SERVER_ADDRESS")
 	}
 
 	database, error := db.Connect()

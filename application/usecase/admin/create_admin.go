@@ -59,7 +59,7 @@ func (u *CreateAdminUseCase) Execute(request *request.Admin) (error, int) {
 	}
 
 	adminId := uuid.New().String()
-	hashedPasswordBytes, error := bcrypt.GenerateFromPassword([]byte(request.Password), 14)
+	hashedPasswordBytes, error := bcrypt.GenerateFromPassword([]byte(request.Password), 5)
 
 	if error != nil {
 		log.Printf("failed to generate hashed password for admin %s", request.Email)
