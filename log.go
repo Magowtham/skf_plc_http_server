@@ -8,12 +8,7 @@ import (
 
 func initLogger() {
 
-	logFileName := os.Getenv("LOG_FILE_NAME")
-
-	if logFileName == "" {
-		log.Fatalln("missing enviroment variable LOG_FILE_NAME")
-		return
-	}
+	logFileName := "app.log"
 
 	logFile, error := os.OpenFile(logFileName, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 
