@@ -115,6 +115,11 @@ func (u *CreateRegisterUseCase) Execute(plcId string, drierId string, registerRe
 		LastUpdateTimestamp: time.Now().UTC(),
 	}
 
+	if error := u.CacheService.CreateRegister(plcId, register); error != nil {
+		log.Printf("error occurred with cache while creating the register having plc id -> %s and drier id -> %s\n", plcId, drierId)
+		return fmt.Errorf("error occurred with cache"), 2
+	}
+
 	if rcpStpTimeRegex.MatchString(registerRequest.RegType) {
 		if error := u.DataBaseService.UpdateDrierRecipeStepCountAndCreateRegister(plcId, register); error != nil {
 			log.Printf("error occurred while update and creating the register, create register, plc id -> %s, drier id -> %s", plcId, drierId)
@@ -127,11 +132,6 @@ func (u *CreateRegisterUseCase) Execute(plcId string, drierId string, registerRe
 	if error := u.DataBaseService.CreateRegister(plcId, register); error != nil {
 		log.Printf("error occurred with database while creating the register having plc id -> %s and drier id -> %s\n", plcId, drierId)
 		return fmt.Errorf("error occurred with database"), 2
-	}
-
-	if error := u.CacheService.CreateRegister(plcId, register); error != nil {
-		log.Printf("error occurred with cache while creating the register having plc id -> %s and drier id -> %s\n", plcId, drierId)
-		return fmt.Errorf("error occurred with cache"), 2
 	}
 
 	return nil, 0
