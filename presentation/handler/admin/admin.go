@@ -168,11 +168,12 @@ func (h *Handler) AdminLoginHandler(w http.ResponseWriter, r *http.Request) {
 	cookie := &http.Cookie{
 		Name:     "token",
 		Value:    token,
+		Domain:   "skfplc.http.vsensetech.in",
 		Expires:  time.Now().Add(time.Hour * 24 * 365),
 		HttpOnly: true,
 		Secure:   true,
 		Path:     "/",
-		SameSite: http.SameSiteNoneMode,
+		SameSite: http.SameSiteStrictMode,
 	}
 
 	http.SetCookie(w, cookie)
