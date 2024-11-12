@@ -30,8 +30,6 @@ func AdminAuthenticationMiddleWare(next http.Handler) http.Handler {
 
 		cookie, err := r.Cookie("token")
 
-		requestToken := strings.Split(cookie.String(), "=")[1]
-
 		if err != nil {
 			if err == http.ErrNoCookie {
 				response := response.StatusMessage{
@@ -50,6 +48,8 @@ func AdminAuthenticationMiddleWare(next http.Handler) http.Handler {
 			return
 		}
 
+		requestToken := strings.Split(cookie.String(), "=")[1]
+
 		_, error := jwt.Parse(requestToken, func(t *jwt.Token) (interface{}, error) {
 			if t.Method != jwt.SigningMethodHS256 {
 				return nil, fmt.Errorf("unexpected signing method %v", t.Header["alg"])
@@ -57,8 +57,6 @@ func AdminAuthenticationMiddleWare(next http.Handler) http.Handler {
 
 			return jwtSecreteKey, nil
 		})
-
-		fmt.Println(error.Error())
 
 		if error != nil {
 			response := response.StatusMessage{
