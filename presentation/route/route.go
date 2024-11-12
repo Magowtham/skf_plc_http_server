@@ -21,7 +21,7 @@ func Router(dbRepo repository.DataBaseRepository, cacheRepo repository.CacheRepo
 	userRouter := router.PathPrefix("/user").Subrouter()
 
 	router.Use(middleware.CorsMiddleWare)
-	adminRouter.Use(middleware.AdminAuthenticationMiddleWare)
+	// adminRouter.Use(middleware.AdminAuthenticationMiddleWare)
 
 	loginRouter.HandleFunc("/admin", adminHandler.AdminLoginHandler).Methods("POST")
 	loginRouter.HandleFunc("/user", userHandler.UserLoginHandler).Methods("POST")
