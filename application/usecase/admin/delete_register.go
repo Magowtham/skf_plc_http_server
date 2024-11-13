@@ -63,19 +63,19 @@ func (u *DeleteRegisterUseCase) Execute(plcId string, drierId string, registerAd
 		return fmt.Errorf("register address not exists"), 1
 	}
 
-	rcpStepTimeRegex := regexp.MustCompile(`^rcp_stp_\d+_tm$`)
+	if err := u.CacheService.DeleteRegister(plcId, registerAddress); err != nil {
+		log.Printf("error occurred with redis while deleting the register, plc id -> %s, drier id -> %s", plcId, drierId)
+		return fmt.Errorf("error occurred with cache"), 2
+	}
 
-	if rcpStepTimeRegex.MatchString(registerType) {
+	rcpStepStatusRegex := regexp.MustCompile(`^rcp_stp_\d+_st$`)
+
+	if rcpStepStatusRegex.MatchString(registerType) {
 		if error := u.DataBaseService.UpdateDrierRecipeStepCountAndDeleteRegisterByRegAddress(plcId, drierId, registerAddress); error != nil {
 			log.Printf("error occurred with database while update and deleting register, plc id -> %s, drier id -> %s reg address -> %s reg type -> %s ", plcId, drierId, registerAddress, registerType)
 			return fmt.Errorf("error occurred with database"), 2
 		}
 		return nil, 0
-	}
-
-	if err := u.CacheService.DeleteRegister(plcId, registerAddress); err != nil {
-		log.Printf("error occurred with redis while deleting the register, plc id -> %s, drier id -> %s", plcId, drierId)
-		return fmt.Errorf("error occurred with cache"), 2
 	}
 
 	if error := u.DataBaseService.DeleteRegisterByRegAddress(plcId, registerAddress); error != nil {

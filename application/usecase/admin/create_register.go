@@ -88,10 +88,12 @@ func (u *CreateRegisterUseCase) Execute(plcId string, drierId string, registerRe
 		return fmt.Errorf("error occurred with database"), 2
 	}
 
-	rcpStpTimeRegex := regexp.MustCompile(`^rcp_stp_\d+_tm$`)
-	rcpStpTempRegex := regexp.MustCompile(`^rcp_stp_\d+_tp$`)
+	rcpStepStatusRegex := regexp.MustCompile(`^rcp_stp_\d+_st$`)
+	rcpStepRealTimeTimeRegex := regexp.MustCompile(`^rcp_stp_\d+_rtm$`)
+	rcpStepRealTimeTempRegex := regexp.MustCompile(`^rcp_stp_\d+_rtp$`)
+	rcpStepSetTimeRegex := regexp.MustCompile(`^rcp_stp_\d+_stm$`)
 
-	if !isRegTypeNameExistsInRegTypes && !rcpStpTimeRegex.MatchString(registerRequest.RegType) && !rcpStpTempRegex.MatchString(registerRequest.RegType) {
+	if !isRegTypeNameExistsInRegTypes && !rcpStepStatusRegex.MatchString(registerRequest.RegType) && !rcpStepRealTimeTimeRegex.MatchString(registerRequest.RegType) && !rcpStepRealTimeTempRegex.MatchString(registerRequest.RegType) && !rcpStepSetTimeRegex.MatchString(registerRequest.RegType) {
 		return fmt.Errorf("invalid register type"), 1
 	}
 
@@ -120,7 +122,7 @@ func (u *CreateRegisterUseCase) Execute(plcId string, drierId string, registerRe
 		return fmt.Errorf("error occurred with cache"), 2
 	}
 
-	if rcpStpTimeRegex.MatchString(registerRequest.RegType) {
+	if rcpStepStatusRegex.MatchString(registerRequest.RegType) {
 		if error := u.DataBaseService.UpdateDrierRecipeStepCountAndCreateRegister(plcId, register); error != nil {
 			log.Printf("error occurred while update and creating the register, create register, plc id -> %s, drier id -> %s", plcId, drierId)
 			return fmt.Errorf("error occurred with database"), 2
