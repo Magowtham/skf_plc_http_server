@@ -54,9 +54,10 @@ func (repo *PostgresRepository) Init() error {
 	query5 := `CREATE TABLE IF NOT EXISTS batches (
 				drier_id VARCHAR(255) NOT NULL,
 				recipe_step VARCHAR(20) NOT NULL,
-				time VARCHAR(20) NOT NULL,
-				temp VARCHAR(20) NOT NULL,
-				pid VARCHAR(20) NOT NULL,
+				set_time VARCHAR(20) NOT NULL,
+				real_time VARCHAR(20) NOT NULL,
+				real_temp VARCHAR(20) NOT NULL,
+				real_pid VARCHAR(20) NOT NULL,
 				created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 				FOREIGN KEY (drier_id) REFERENCES driers(drier_id) ON DELETE CASCADE
 			);`
