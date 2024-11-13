@@ -23,7 +23,8 @@ func (repo *RedisRepository) CreateDrier(drierId string) error {
 	key2 := fmt.Sprintf("rcp_stp_rtp_%s", drierId)
 	key3 := fmt.Sprintf("rcp_stp_stm_%s", drierId)
 	key4 := fmt.Sprintf("pid_%s", drierId)
-	_, err := repo.client.MSet(context.Background(), key1, "0", key2, "0", key3, "0", key4, "0").Result()
+	key5 := fmt.Sprintf("rcp_stp_cmp_%s", drierId)
+	_, err := repo.client.MSet(context.Background(), key1, "0", key2, "0", key3, "0", key4, "0", key5, "0").Result()
 	return err
 }
 
@@ -32,7 +33,8 @@ func (repo *RedisRepository) DeleteDrier(drierId string) error {
 	key2 := fmt.Sprintf("rcp_stp_rtp_%s", drierId)
 	key3 := fmt.Sprintf("rcp_stp_stm_%s", drierId)
 	key4 := fmt.Sprintf("pid_%s", drierId)
-	_, err := repo.client.Del(context.Background(), key1, key2, key3, key4).Result()
+	key5 := fmt.Sprintf("rcp_stp_cmp_%s", drierId)
+	_, err := repo.client.Del(context.Background(), key1, key2, key3, key4, key5).Result()
 	return err
 }
 
